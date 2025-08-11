@@ -1,0 +1,25 @@
+import heroImageFile from "./assets/flower-aiart.jpg";
+import instructorImageFile from "./assets/hero.jpg";
+import performance1 from "./assets/wedding.jpeg";
+import performance2 from "./assets/bhajan.jpeg";
+import performance3 from "./assets/birthday_party.jpeg";
+import performance4 from "./assets/corporate_shows.jpeg";
+import performance5 from "./assets/personal_gigs.jpeg";
+import performance6 from "./assets/private_shows.jpeg";
+import fluteImg from "./assets/flute.jpeg";
+import harmoniumImg from "./assets/harmonium.jpeg";
+import guitarImg from "./assets/guitar.jpeg";
+import tabalaImg from "./assets/tabala.jpeg";
+
+export const heroImage = heroImageFile;
+export const instructorImage = instructorImageFile;
+export const performanceImage1 = performance1;
+export const performanceImage2 = performance2;
+export const performanceImage3 = performance3;
+export const performanceImage4 = performance4;
+export const performanceImage5 = performance5;
+export const performanceImage6 = performance6;
+export const fluteImage = fluteImg;
+export const harmoniumImage = harmoniumImg;
+export const guitarImage = guitarImg;
+export const tabalaImage = tabalaImg;
