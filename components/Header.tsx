@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import logo from './assets/Logo.png';
+import logo from "./assets/logo.png";
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,7 +35,6 @@ const Header: React.FC = () => {
             src={logo}
             alt="Logo"
             className="h-full max-h-20 w-auto object-contain"
-            style={{ height: '100%', width: 'auto' }}
           />
         </a>
 

@@ -1,4 +1,5 @@
 import React from "react";
+import Perform from "./assets/Perform.mp4"; // Import handles path resolution
 
 const VideoSlideshow: React.FC = () => {
   return (
@@ -9,7 +10,7 @@ const VideoSlideshow: React.FC = () => {
 
       <div className="aspect-video max-w-4xl mx-auto px-4">
         <video
-          src={`${import.meta.env.BASE_URL}assets/Perform.mp4`} // ✅ Works locally & on GitHub Pages
+          src={Perform} // ✅ Uses imported path (works locally & after build)
           controls
           autoPlay
           loop

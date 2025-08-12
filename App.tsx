@@ -13,13 +13,12 @@ import BookDemoModal from './components/BookDemoModal';
 import EnrollModal from './components/EnrollModal';
 import Footer from './components/Footer';
 
-import {
-  instructorImage,
-  fluteImage,
-  harmoniumImage,
-  guitarImage,
-  tabalaImage,
-} from './components/assets';
+// ✅ Import images directly (adjust paths as needed)
+import instructorImage from "./components/assets/hero.jpg";
+import fluteImage from "./components/assets/flute.jpeg";
+import harmoniumImage from "./components/assets/harmonium.jpeg";
+import guitarImage from "./components/assets/guitar.jpeg";
+import tabalaImage from "./components/assets/tabala.jpeg";
 
 import { Instructor, InstrumentClass } from './types';
 
@@ -39,7 +38,7 @@ const App: React.FC = () => {
       name: 'Atharva Nerikar',
       instrument: 'The Musical Journey of a Modern Bansuri Virtuoso',
       imageUrl: instructorImage,
-      bio: `A passionate flautist from the culturally rich city of Nashik, India, Atharva Nerikar's journey with music began at an early age. Mentored by the esteemed guru Mr. Pravin Gulve, he has honed his craft through years of dedicated practice. His artistry has taken him across the globe, sharing evocative stories through his music with audiences worldwide.`,
+      bio: 'A passionate flautist from the culturally rich city of Nashik, India, Atharva Nerikar journey with music began at an early age. Mentored by the esteemed guru Mr. Pravin Gulve, he has honed his craft through years of dedicated practice. His artistry has taken him across the globe, sharing evocative stories through his music with audiences worldwide.'
     },
   ];
 
