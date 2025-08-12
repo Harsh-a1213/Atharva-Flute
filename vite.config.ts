@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
-    base: '/Atharva-Flute/', // GitHub repo name
+    base: '/', // GitHub repo name
     server: {
       host: '0.0.0.0',
       port: 5173,
