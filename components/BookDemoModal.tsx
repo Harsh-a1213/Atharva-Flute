@@ -22,7 +22,11 @@ const BookDemoModal: React.FC<BookDemoModalProps> = ({ isOpen, onClose }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const payload = { ...formData, source: "Book Demo" };
+    const payload = {
+      formType: "free_trial",
+      ...formData,
+      source: "Book Demo"
+   };
 
     await fetch("https://script.google.com/macros/s/AKfycbzrII67vOQnMXe6dnhBpGMdY25_ZNu175kc8vCZ2lw0924vChywmTWRC45oLGnhzk75/exec", {
       method: "POST",
