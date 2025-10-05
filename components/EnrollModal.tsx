@@ -13,7 +13,7 @@ const EnrollModal: React.FC<EnrollModalProps> = ({ isOpen, onClose }) => {
     gender: '',
     course: '',
     level: '',
-    mail: '',
+    email: '',
     enquiry: '',
   });
 
@@ -28,6 +28,38 @@ const EnrollModal: React.FC<EnrollModalProps> = ({ isOpen, onClose }) => {
     e.preventDefault();
     console.log('Enrollment Form Submitted:', formData);
     onClose();
+
+    const payload = {
+    formType: "enroll",
+    ...formData,
+    source: "Enroll Now",
+  };
+
+  try {
+    fetch("https://script.google.com/macros/s/AKfycbzrII67vOQnMXe6dnhBpGMdY25_ZNu175kc8vCZ2lw0924vChywmTWRC45oLGnhzk75/exec", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    alert("Enrollment form submitted successfully!");
+    onClose();
+
+    // Reset the form
+    setFormData({
+      name: '',
+      contact: '',
+      age: '',
+      gender: '',
+      course: '',
+      level: '',
+      email: '',
+      enquiry: '',
+       });
+  } catch (error) {
+    console.error("Error submitting enrollment:", error);
+    alert("Something went wrong. Please try again.");
+  }
   };
 
   if (!isOpen) return null;
@@ -45,7 +77,7 @@ const EnrollModal: React.FC<EnrollModalProps> = ({ isOpen, onClose }) => {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full border border-gray-300 text-gray-800 rounded-lg px-4 py-2"
+            className="w-full border border-gray-300 text-gray-800 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-brand-gold"
           />
 
           <input
@@ -55,7 +87,7 @@ const EnrollModal: React.FC<EnrollModalProps> = ({ isOpen, onClose }) => {
             value={formData.contact}
             onChange={handleChange}
             required
-            className="w-full border border-gray-300 text-gray-800 rounded-lg px-4 py-2"
+            className="w-full border border-gray-300 text-gray-800 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-brand-gold"
           />
 
           <input
@@ -65,7 +97,7 @@ const EnrollModal: React.FC<EnrollModalProps> = ({ isOpen, onClose }) => {
             value={formData.age}
             onChange={handleChange}
             required
-            className="w-full border border-gray-300 text-gray-800 rounded-lg px-4 py-2"
+            className="w-full border border-gray-300 text-gray-800 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-brand-gold"
           />
 
           <select
@@ -73,7 +105,7 @@ const EnrollModal: React.FC<EnrollModalProps> = ({ isOpen, onClose }) => {
             value={formData.gender}
             onChange={handleChange}
             required
-            className="w-full border border-gray-300 text-gray-800 rounded-lg px-4 py-2"
+            className="w-full border border-gray-300 text-gray-800 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-brand-gold"
           >
             <option value="">Select Gender</option>
             <option value="Female">Female</option>
@@ -86,13 +118,13 @@ const EnrollModal: React.FC<EnrollModalProps> = ({ isOpen, onClose }) => {
             value={formData.course}
             onChange={handleChange}
             required
-            className="w-full border border-gray-300 text-gray-800 rounded-lg px-4 py-2"
+            className="w-full border border-gray-300 text-gray-800 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-brand-gold"
           >
             <option value="">Select Course</option>
             <option value="Flute">Flute</option>
             <option value="Tabla">Tabla</option>
-            <option value="Violin">Guitar</option>
-            <option value="Other">Harmonium</option>
+            <option value="Guitar">Guitar</option>
+            <option value="Harmonium">Harmonium</option>
           </select>
 
           <select
@@ -100,7 +132,7 @@ const EnrollModal: React.FC<EnrollModalProps> = ({ isOpen, onClose }) => {
             value={formData.level}
             onChange={handleChange}
             required
-            className="w-full border border-gray-300 text-gray-800 rounded-lg px-4 py-2"
+            className="w-full border border-gray-300 text-gray-800 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-brand-gold"
           >
             <option value="">Select Level</option>
             <option value="Beginner">Beginner</option>
@@ -110,12 +142,12 @@ const EnrollModal: React.FC<EnrollModalProps> = ({ isOpen, onClose }) => {
 
           <input
             type="email"
-            name="mail"
+            name="email"
             placeholder="Email Address"
-            value={formData.mail}
+            value={formData.email}
             onChange={handleChange}
             required
-            className="w-full border border-gray-300 text-gray-800 rounded-lg px-4 py-2"
+            className="w-full border border-gray-300 text-gray-800 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-brand-gold"
           />
 
           <textarea
@@ -124,7 +156,7 @@ const EnrollModal: React.FC<EnrollModalProps> = ({ isOpen, onClose }) => {
             value={formData.enquiry}
             onChange={handleChange}
             rows={3}
-            className="w-full border  border-gray-300 text-gray-800 rounded-lg px-4 py-2"
+            className="w-full border border-gray-300 text-gray-800 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-brand-gold"
           />
 
           <div className="flex justify-between mt-6">
