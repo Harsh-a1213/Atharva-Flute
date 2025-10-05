@@ -4,112 +4,100 @@ const EnquiryForm: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
+    contact: '',
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    try {
-      await fetch("https://script.google.com/macros/s/AKfycbzrII67vOQnMXe6dnhBpGMdY25_ZNu175kc8vCZ2lw0924vChywmTWRC45oLGnhzk75/exec", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          formType: "enquiry",
-          name: formData.name,
-          contact: formData.phone,
-          email: formData.email,
-          message: formData.message,
-          source: "website",
-        }),
-      });
+    const payload = {
+      formType: "enquiry",
+      ...formData,
+      source: "Website Enquiry",
+    };
 
-      setSubmitted(true);
-    } catch (error) {
-      console.error("Submission failed:", error);
+    try {
+      const response = await fetch(
+        "https://script.google.com/macros/s/AKfycbzrII67vOQnMXe6dnhBpGMdY25_ZNu175kc8vCZ2lw0924vChywmTWRC45oLGnhzk75/exec",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (response.ok) {
+        setSubmitted(true);
+        setFormData({ name: '', email: '', contact: '', message: '' });
+
+        // Hide thank-you message after 3 seconds
+        setTimeout(() => setSubmitted(false), 3000);
+      } else {
+        alert("Failed to submit. Please try again.");
+      }
+    } catch (err) {
+      console.error("Submission failed:", err);
+      alert("Something went wrong. Please try again.");
     }
   };
 
   return (
-    <section id="contact" className="py-20 bg-[var(--brand-gray)]">
+    <section className="py-20 bg-gray-900">
       <div className="container mx-auto px-6">
         {submitted ? (
-          <div className="text-center">
-            <h2 className="text-4xl font-serif font-bold text-[var(--brand-gold)] mb-4">Thank You!</h2>
-            <p className="text-lg text-[var(--brand-light)]">
-              Your enquiry has been sent. We’ll get back to you shortly!
-            </p>
+          <div className="text-center text-green-400 text-xl font-bold">
+            Thank you! We received your enquiry.
           </div>
         ) : (
-          <>
-            <div className="text-center">
-              <h2 className="text-4xl font-serif font-bold text-[var(--brand-gold)] mb-6">Enroll, Book & Inquire</h2>
-              <p className="text-lg text-[var(--brand-light)] max-w-3xl mx-auto leading-relaxed mb-12">
-                Ready to start your musical journey, book a performance, or have a question?
-                Fill out the form below and I’ll get back to you as soon as possible.
-              </p>
-            </div>
-
-            <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-6">
-              {['name', 'email', 'phone'].map((field) => (
-                <div key={field}>
-                  <label htmlFor={field} className="block text-sm font-medium text-[var(--brand-light)] mb-2">
-                    {field === 'name'
-                      ? 'Full Name'
-                      : field === 'email'
-                      ? 'Email Address'
-                      : 'Phone Number (Optional)'}
-                  </label>
-                  <input
-                    type={field === 'email' ? 'email' : field === 'phone' ? 'tel' : 'text'}
-                    name={field}
-                    id={field}
-                    value={formData[field as keyof typeof formData]}
-                    onChange={handleChange}
-                    required={field !== 'phone'}
-                    className="w-full bg-[var(--brand-dark)] border border-gray-600 rounded-md py-3 px-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--brand-gold)]"
-                    placeholder={
-                      field === 'name'
-                        ? 'Enter your full name'
-                        : field === 'email'
-                        ? 'your@email.com'
-                        : 'Optional'
-                    }
-                  />
-                </div>
-              ))}
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-[var(--brand-light)] mb-2">
-                  Your Message
-                </label>
-                <textarea
-                  name="message"
-                  id="message"
-                  rows={5}
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  placeholder="e.g., I’d like to know more about flute lessons..."
-                  className="w-full bg-[var(--brand-dark)] border border-gray-600 rounded-md py-3 px-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--brand-gold)]"
-                ></textarea>
-              </div>
-              <div className="text-center">
-                <button
-                  type="submit"
-                  className="bg-brand-gold text-brand-dark font-bold py-4 px-10 rounded-full text-lg hover:bg-yellow-300 transition-transform transform hover:scale-105"
-                >
-                  Send Message
-                </button>
-              </div>
-            </form>
-          </>
+          <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-4">
+            <input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              className="w-full p-3 rounded border bg-gray-800 text-white"
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email Address"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-full p-3 rounded border bg-gray-800 text-white"
+            />
+            <input
+              type="tel"
+              name="contact"
+              placeholder="Phone Number"
+              value={formData.contact}
+              onChange={handleChange}
+              className="w-full p-3 rounded border bg-gray-800 text-white"
+            />
+            <textarea
+              name="message"
+              placeholder="Your Message"
+              value={formData.message}
+              onChange={handleChange}
+              rows={4}
+              className="w-full p-3 rounded border bg-gray-800 text-white"
+            />
+            <button
+              type="submit"
+              className="w-full py-3 bg-yellow-400 text-gray-900 font-bold rounded hover:bg-yellow-300"
+            >
+              Send Enquiry
+            </button>
+          </form>
         )}
       </div>
     </section>
