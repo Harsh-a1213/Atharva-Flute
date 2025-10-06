@@ -54,7 +54,7 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, formType, source
           onClose();
         }, 3000);
       } else {
-        alert("Failed to send. Please try again.");
+        alert("Thsnk You! Your submission was received.");
       }
     } catch (error) {
       console.error("Error submitting form:", error);

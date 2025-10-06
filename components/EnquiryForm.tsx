@@ -33,14 +33,16 @@ const EnquiryForm: React.FC = () => {
         }
       );
 
-      if (response.ok) {
+      const data = await response.json();
+
+      if (data.result === "success" || response.ok) {
         setSubmitted(true);
         setFormData({ name: '', email: '', contact: '', message: '' });
 
         // Hide thank-you message after 3 seconds
         setTimeout(() => setSubmitted(false), 3000);
       } else {
-        alert("Failed to submit. Please try again.");
+        alert("Something went wrong. Please try again.");
       }
     } catch (err) {
       console.error("Submission failed:", err);
