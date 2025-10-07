@@ -5,7 +5,9 @@ interface Props {
   onClose: () => void;
 }
 
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycby0KoEjby4qm1wcOqJHBTK3oa7GDfRMJHBSq8GudTzkct7w_luxVWVU9iQAAI2783Ha/exec"; // ← REPLACE
+// ✅ Use the same URL you deployed in Apps Script
+const WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycby0KoEjby4qm1wcOqJHBTK3oa7GDfRMJHBSq8GudTzkct7w_luxVWVU9iQAAI2783Ha/exec";
 
 const BookDemoModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -23,10 +25,12 @@ const BookDemoModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
     const { name, value } = e.target;
-    setFormData((p) => ({ ...p, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const resetForm = () =>
@@ -40,40 +44,47 @@ const BookDemoModal: React.FC<Props> = ({ isOpen, onClose }) => {
       enquiryType: "",
     });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
-    const form = new FormData();
-    form.append("formType", "demo");
-    form.append("source", "Website");
-    Object.entries(formData).forEach(([key, value]) => form.append(key, value));
-
     try {
-      const res = await fetch(WEB_APP_URL, { method: "POST", body: form });
-      const text = await res.text();
+      // ✅ Primary JSON request
+      const response = await fetch(WEB_APP_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, source: "Website" }),
+      });
 
-      if (res.ok && /success/i.test(text)) {
+      let text = "";
+      try {
+        text = await response.text();
+      } catch {
+        text = "";
+      }
+
+      if (response.ok && /success/i.test(text)) {
         setSubmitted(true);
-        resetForm();
-        setTimeout(() => {
-          setSubmitted(false);
-          onClose();
-        }, 2500);
       } else {
-        // fallback no-cors
+        // ✅ Fallback (no-cors) for Apps Script restrictions
+        const form = new FormData();
+        Object.entries(formData).forEach(([key, value]) =>
+          form.append(key, value)
+        );
+        form.append("source", "Website");
         await fetch(WEB_APP_URL, { method: "POST", body: form, mode: "no-cors" });
         setSubmitted(true);
-        resetForm();
-        setTimeout(() => {
-          setSubmitted(false);
-          onClose();
-        }, 2500);
       }
+
+      resetForm();
+      setTimeout(() => {
+        setSubmitted(false);
+        onClose();
+      }, 2500);
     } catch (err) {
       console.error("Submit error:", err);
-      setError("Submission failed. Check console or Apps Script deployment.");
+      setError("Submission failed. Please check connection or try again.");
     } finally {
       setLoading(false);
     }
@@ -83,7 +94,6 @@ const BookDemoModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-      {/* Modal box */}
       <div className="bg-white text-gray-900 w-full max-w-lg rounded-2xl p-6 relative shadow-2xl">
         {/* Close button */}
         <button
