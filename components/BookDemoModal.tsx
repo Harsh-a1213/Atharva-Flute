@@ -30,15 +30,21 @@ const BookDemoModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Handle form input changes
+  // ✅ Change 1: use your deployed domain or relative API path
+  const API_URL =
+    import.meta.env.PROD
+      ? "/api/saveform" // works automatically on Vercel
+      : "http://localhost:3000/api/saveform"; // for local testing with `vercel dev`
+
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Reset form after submission
   const resetForm = () =>
     setFormData({
       name: "",
@@ -50,22 +56,23 @@ const BookDemoModal: React.FC<Props> = ({ isOpen, onClose }) => {
       enquiryType: "",
     });
 
-  // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
     try {
-      const response = await fetch("/api/saveform", {
+      // ✅ Change 2: use dynamic API_URL
+      const response = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
+      // ✅ Change 3: adjust response parsing
       const result = await response.json();
 
-      if (result.success) {
+      if (result.status === "success") {
         setSubmitted(true);
         resetForm();
         setTimeout(() => {
@@ -75,7 +82,7 @@ const BookDemoModal: React.FC<Props> = ({ isOpen, onClose }) => {
       } else {
         throw new Error(result.message || "Submission failed");
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error("Submit error:", err);
       setError("Submission failed. Please check your connection or try again.");
     } finally {
