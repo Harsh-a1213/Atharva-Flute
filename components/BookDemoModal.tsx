@@ -5,10 +5,18 @@ interface Props {
   onClose: () => void;
 }
 
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycby0KoEjby4qm1wcOqJHBTK3oa7GDfRMJHBSq8GudTzkct7w_luxVWVU9iQAAI2783Ha/exec";
+interface FormData {
+  name: string;
+  contact: string;
+  email?: string;
+  course: string;
+  age: string;
+  gender: string;
+  enquiryType: string;
+}
 
 const BookDemoModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     contact: "",
     email: "",
@@ -22,6 +30,7 @@ const BookDemoModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Handle form input changes
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
@@ -29,6 +38,7 @@ const BookDemoModal: React.FC<Props> = ({ isOpen, onClose }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Reset form after submission
   const resetForm = () =>
     setFormData({
       name: "",
@@ -40,21 +50,22 @@ const BookDemoModal: React.FC<Props> = ({ isOpen, onClose }) => {
       enquiryType: "",
     });
 
+  // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
     try {
-      const response = await fetch(WEB_APP_URL, {
+      const response = await fetch("/api/saveform", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, source: "Website" }),
+        body: JSON.stringify(formData),
       });
 
       const result = await response.json();
 
-      if (result.status === "success") {
+      if (result.success) {
         setSubmitted(true);
         resetForm();
         setTimeout(() => {
@@ -66,7 +77,7 @@ const BookDemoModal: React.FC<Props> = ({ isOpen, onClose }) => {
       }
     } catch (err: any) {
       console.error("Submit error:", err);
-      setError("Submission failed. Please check connection or try again.");
+      setError("Submission failed. Please check your connection or try again.");
     } finally {
       setLoading(false);
     }
