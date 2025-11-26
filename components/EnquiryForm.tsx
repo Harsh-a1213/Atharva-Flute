@@ -33,7 +33,6 @@ const EnquiryForm: React.FC = () => {
       });
 
       const envelope = await res.json();
-
       if (!envelope || !envelope.ok) {
         console.error('Submission failed:', envelope);
         setError('Submission failed. Please try again.');

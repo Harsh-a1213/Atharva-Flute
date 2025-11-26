@@ -34,7 +34,6 @@ const BookDemoModal: React.FC<Props> = ({ isOpen, onClose }) => {
       });
 
       const envelope = await res.json();
-
       if (!envelope || !envelope.ok) {
         console.error("Forward failed:", envelope);
         setError("Submission failed. Please try again.");
@@ -80,19 +79,34 @@ const BookDemoModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
               <select name="course" value={formData.course} onChange={handleChange} required disabled={loading} className="w-full border rounded-lg px-3 py-2">
                 <option value="">Select Course</option>
-                <option>Flute</option><option>Tabla</option><option>Guitar</option><option>Harmonium</option>
+                <option value="Flute">Flute</option>
+                <option value="Tabla">Tabla</option>
+                <option value="Guitar">Guitar</option>
+                <option value="Harmonium">Harmonium</option>
               </select>
 
               <select name="age" value={formData.age} onChange={handleChange} required disabled={loading} className="w-full border rounded-lg px-3 py-2">
-                <option value="">Select Age Group</option><option>Under 10</option><option>10-18</option><option>19-30</option><option>31-50+</option>
+                <option value="">Select Age Group</option>
+                <option value="Under 10">Under 10</option>
+                <option value="10-18">10-18</option>
+                <option value="19-30">19-30</option>
+                <option value="31-50+">31-50+</option>
               </select>
 
               <select name="gender" value={formData.gender} onChange={handleChange} required disabled={loading} className="w-full border rounded-lg px-3 py-2">
-                <option value="">Select Gender</option><option>Female</option><option>Male</option><option>Other</option>
+                <option value="">Select Gender</option>
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
+                <option value="Other">Other</option>
               </select>
 
+              {/* <-- IMPORTANT: value strings MUST match the allowed strings in Apps Script --> */}
               <select name="enquiryType" value={formData.enquiryType} onChange={handleChange} required disabled={loading} className="w-full border rounded-lg px-3 py-2">
-                <option value="">Select Enquiry Type</option><option>Book Free Trial</option><option>Enroll in Class</option><option>Book Show / Performance</option><option>Other Enquiry</option>
+                <option value="">Select Enquiry Type</option>
+                <option value="Demo Class Scheduling">Book Free Trial</option>
+                <option value="Class Enquiry">Enroll in Class</option>
+                <option value="Performance/Concert Enquiry">Book Show / Performance</option>
+                <option value="Booking">Other Enquiry</option>
               </select>
 
               {error && <div className="text-sm text-red-600 bg-red-50 border p-2 rounded">{error}</div>}

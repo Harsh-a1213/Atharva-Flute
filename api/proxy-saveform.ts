@@ -1,7 +1,7 @@
 // api/proxy-saveform.ts
 const GOOGLE_SCRIPT_URL =
   process.env.GOOGLE_SCRIPT_URL ||
-  "https://script.google.com/macros/s/AKfycbzhrhieMVZ9RYhnGrCA9e6OUr2wI5tl90SegwzFiS1XxSXo-b1hDKTPACL8DYoqJkNC/exec";
+  "https://script.google.com/macros/s/AKfycbxQJ5rysu9qVXYogY9QVgntZztv6yLdo7rF0l9ECngymITU1laMhFSIvdf0i341Uubp/exec";
 
 export default async function handler(req: any, res: any) {
   if (req.method === "OPTIONS") {

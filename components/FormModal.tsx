@@ -1,83 +1,118 @@
 import React, { useState } from "react";
 
-interface Field { name: string; type: "text"|"email"|"tel"|"number"|"textarea"|"select"; placeholder?: string; options?: string[]; required?: boolean; }
-interface FormModalProps { isOpen: boolean; onClose: () => void; formType: "enroll"|"performance"|"demo"|"enquiry"; source: string; fields: Field[]; }
+interface Props { isOpen: boolean; onClose: () => void; }
+interface FormData {
+  name: string; contact: string; email?: string;
+  course: string; age: string; gender: string; enquiryType: string;
+}
 
-const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, formType, source, fields }) => {
-  const initialState = fields.reduce((acc, field) => ({ ...acc, [field.name]: "" }), {});
-  const [formData, setFormData] = useState<Record<string, string>>(initialState);
-  const [submitted, setSubmitted] = useState(false);
+const BookDemoModal: React.FC<Props> = ({ isOpen, onClose }) => {
+  const [formData, setFormData] = useState<FormData>({
+    name: "", contact: "", email: "", course: "", age: "", gender: "", enquiryType: ""
+  });
   const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  if (!isOpen) return null;
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const resetForm = () => setFormData({ name: "", contact: "", email: "", course: "", age: "", gender: "", enquiryType: "" });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
     setLoading(true);
 
-    const payload = { formType, source, ...formData };
-
     try {
-      const res = await fetch('/api/proxy-saveform', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+      const res = await fetch("/api/proxy-saveform", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ formType: "book-demo", source: "Website - Book Demo Modal", ...formData })
       });
 
       const envelope = await res.json();
-
       if (!envelope || !envelope.ok) {
-        console.error('Failed:', envelope);
-        alert('Submission failed. Please try again.');
+        console.error("Forward failed:", envelope);
+        setError("Submission failed. Please try again.");
         return;
       }
 
       setSubmitted(true);
-      setTimeout(() => { setSubmitted(false); onClose(); setFormData(initialState); }, 3000);
-    } catch (err) {
-      console.error('Error submitting form:', err);
-      alert('Something went wrong. Please try again later.');
+      resetForm();
+      setTimeout(() => { setSubmitted(false); onClose(); }, 2500);
+    } catch (err: any) {
+      console.error("Submit error:", err);
+      setError("Submission failed. Please check your connection or try again.");
     } finally {
       setLoading(false);
     }
   };
 
+  if (!isOpen) return null;
+
   return (
-    <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center px-4">
-      <div className="bg-white rounded-2xl p-6 w-full max-w-lg relative shadow-2xl">
-        <button onClick={onClose} className="absolute top-3 right-3 text-xl font-bold">&times;</button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+      <div className="bg-white text-gray-900 w-full max-w-lg rounded-2xl p-6 relative shadow-2xl">
+        <button onClick={onClose} className="absolute top-3 right-3 text-2xl text-gray-500 hover:text-gray-800">&times;</button>
 
         {submitted ? (
-          <div className="text-center py-10">
-            <h2 className="text-2xl font-bold text-[var(--brand-gold)] mb-2">Thank You!</h2>
-            <p className="text-gray-700">Your {formType} form has been submitted successfully.</p>
+          <div className="py-12 text-center">
+            <div className="text-2xl font-bold text-green-600">🎉 Thank you!</div>
+            <div className="mt-2 text-gray-700">Your request has been submitted.</div>
           </div>
         ) : (
           <>
-            <h2 className="text-2xl font-semibold mb-4 text-center">{source}</h2>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              {fields.map(field => {
-                if (field.type === 'textarea') {
-                  return <textarea key={field.name} name={field.name} value={formData[field.name]} onChange={handleChange} placeholder={field.placeholder} required={field.required} rows={4} className="border p-3 rounded" disabled={loading} />;
-                } else if (field.type === 'select') {
-                  return (
-                    <select key={field.name} name={field.name} value={formData[field.name]} onChange={handleChange} required={field.required} className="border p-3 rounded" disabled={loading}>
-                      <option value="">{`Select ${field.name}`}</option>
-                      {field.options?.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                    </select>
-                  );
-                } else {
-                  return <input key={field.name} type={field.type} name={field.name} value={formData[field.name]} onChange={handleChange} placeholder={field.placeholder} required={field.required} className="border p-3 rounded" disabled={loading} />;
-                }
-              })}
+            <h3 className="text-2xl font-semibold mb-5 text-center text-gray-800">Book Demo / Enquiry Form</h3>
 
-              <button type="submit" disabled={loading} className="bg-[var(--brand-gold)] py-3 rounded font-bold">
-                {loading ? 'Sending...' : 'Submit'}
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <input name="name" value={formData.name} onChange={handleChange} placeholder="Full name" required disabled={loading}
+                className="w-full border rounded-lg px-3 py-2" />
+
+              <input name="contact" value={formData.contact} onChange={handleChange} placeholder="Contact number" required disabled={loading}
+                className="w-full border rounded-lg px-3 py-2" />
+
+              <input name="email" value={formData.email} onChange={handleChange} placeholder="Email (optional)" type="email" disabled={loading}
+                className="w-full border rounded-lg px-3 py-2" />
+
+              <select name="course" value={formData.course} onChange={handleChange} required disabled={loading} className="w-full border rounded-lg px-3 py-2">
+                <option value="">Select Course</option>
+                <option value="Flute">Flute</option>
+                <option value="Tabla">Tabla</option>
+                <option value="Guitar">Guitar</option>
+                <option value="Harmonium">Harmonium</option>
+              </select>
+
+              <select name="age" value={formData.age} onChange={handleChange} required disabled={loading} className="w-full border rounded-lg px-3 py-2">
+                <option value="">Select Age Group</option>
+                <option value="Under 10">Under 10</option>
+                <option value="10-18">10-18</option>
+                <option value="19-30">19-30</option>
+                <option value="31-50+">31-50+</option>
+              </select>
+
+              <select name="gender" value={formData.gender} onChange={handleChange} required disabled={loading} className="w-full border rounded-lg px-3 py-2">
+                <option value="">Select Gender</option>
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
+                <option value="Other">Other</option>
+              </select>
+
+              {/* <-- IMPORTANT: value strings MUST match the allowed strings in Apps Script --> */}
+              <select name="enquiryType" value={formData.enquiryType} onChange={handleChange} required disabled={loading} className="w-full border rounded-lg px-3 py-2">
+                <option value="">Select Enquiry Type</option>
+                <option value="Demo Class Scheduling">Book Free Trial</option>
+                <option value="Class Enquiry">Enroll in Class</option>
+                <option value="Performance/Concert Enquiry">Book Show / Performance</option>
+                <option value="Booking">Other Enquiry</option>
+              </select>
+
+              {error && <div className="text-sm text-red-600 bg-red-50 border p-2 rounded">{error}</div>}
+
+              <button type="submit" disabled={loading} className="w-full bg-yellow-500 text-white py-2 rounded-lg">
+                {loading ? "Sending..." : "Submit"}
               </button>
             </form>
           </>
@@ -87,4 +122,4 @@ const FormModal: React.FC<FormModalProps> = ({ isOpen, onClose, formType, source
   );
 };
 
-export default FormModal;
+export default BookDemoModal;

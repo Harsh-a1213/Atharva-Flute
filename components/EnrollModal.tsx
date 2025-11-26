@@ -26,7 +26,6 @@ const EnrollModal: React.FC<Props> = ({ isOpen, onClose }) => {
       });
 
       const envelope = await res.json();
-
       if (!envelope || !envelope.ok) {
         console.error('Error:', envelope);
         alert('Submission failed. Please try again.');
