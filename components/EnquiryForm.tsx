@@ -32,16 +32,16 @@ const EnquiryForm: React.FC = () => {
         body: JSON.stringify(payload)
       });
 
-      const text = await res.text();
-      let json: any;
-      try { json = JSON.parse(text); } catch { json = { status: res.ok ? 'success' : 'error', message: text }; }
+      const envelope = await res.json();
 
-      if (res.ok && (json.status === 'success' || json.status === 'ok')) {
-        setSubmitted(true);
-        setFormData({ name: '', email: '', phone: '', message: '' });
-      } else {
-        throw new Error(json.message || `Server ${res.status}`);
+      if (!envelope || !envelope.ok) {
+        console.error('Submission failed:', envelope);
+        setError('Submission failed. Please try again.');
+        return;
       }
+
+      setSubmitted(true);
+      setFormData({ name: '', email: '', phone: '', message: '' });
     } catch (err: any) {
       console.error('Submission failed:', err);
       setError('Submission failed. Please try again.');

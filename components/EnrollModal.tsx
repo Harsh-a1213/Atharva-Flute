@@ -25,17 +25,17 @@ const EnrollModal: React.FC<Props> = ({ isOpen, onClose }) => {
         body: JSON.stringify(payload)
       });
 
-      const text = await res.text();
-      let json: any;
-      try { json = JSON.parse(text); } catch { json = { status: res.ok ? 'success' : 'error', message: text }; }
+      const envelope = await res.json();
 
-      if (res.ok && (json.status === 'success' || json.status === 'ok')) {
-        setSubmitted(true);
-        setFormData({ name: '', contact: '', age: '', gender: '', course: '', level: '', email: '', enquiry: '' });
-        setTimeout(() => { setSubmitted(false); onClose(); }, 3000);
-      } else {
-        throw new Error(json.message || `Server ${res.status}`);
+      if (!envelope || !envelope.ok) {
+        console.error('Error:', envelope);
+        alert('Submission failed. Please try again.');
+        return;
       }
+
+      setSubmitted(true);
+      setFormData({ name: '', contact: '', age: '', gender: '', course: '', level: '', email: '', enquiry: '' });
+      setTimeout(() => { setSubmitted(false); onClose(); }, 3000);
     } catch (error) {
       console.error(error);
       alert('Network error. Please try again.');
@@ -69,6 +69,7 @@ const EnrollModal: React.FC<Props> = ({ isOpen, onClose }) => {
             </select>
             <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required className="w-full border px-4 py-2 rounded" disabled={loading} />
             <textarea name="enquiry" placeholder="Additional Enquiry" value={formData.enquiry} onChange={handleChange} rows={3} className="w-full border px-4 py-2 rounded" disabled={loading} />
+
             <button type="submit" className="w-full bg-yellow-500 text-black py-2 rounded" disabled={loading}>{loading ? 'Sending...' : 'Submit'}</button>
           </form>
         )}

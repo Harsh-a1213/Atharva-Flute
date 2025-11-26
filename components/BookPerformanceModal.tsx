@@ -24,17 +24,16 @@ const BookPerformanceModal: React.FC<Props> = ({ onClose }) => {
         body: JSON.stringify(payload)
       });
 
-      const text = await res.text();
-      let json: any;
-      try { json = JSON.parse(text); } catch { json = { status: res.ok ? 'success' : 'error', message: text }; }
-
-      if (res.ok && (json.status === 'success' || json.status === 'ok')) {
-        setSubmitted(true);
-        setFormData({ name: '', email: '', message: '' });
-        setTimeout(() => { setSubmitted(false); onClose(); }, 3000);
-      } else {
-        throw new Error(json.message || `Server ${res.status}`);
+      const envelope = await res.json();
+      if (!envelope || !envelope.ok) {
+        console.error('Error:', envelope);
+        alert('Submission failed. Please try again.');
+        return;
       }
+
+      setSubmitted(true);
+      setFormData({ name: '', email: '', message: '' });
+      setTimeout(() => { setSubmitted(false); onClose(); }, 3000);
     } catch (err) {
       console.error(err);
       alert('Something went wrong. Please try again.');

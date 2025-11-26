@@ -33,20 +33,20 @@ const BookDemoModal: React.FC<Props> = ({ isOpen, onClose }) => {
         body: JSON.stringify({ formType: "book-demo", source: "Website - Book Demo Modal", ...formData })
       });
 
-      const text = await res.text();
-      let result: any;
-      try { result = JSON.parse(text); } catch { result = { status: res.ok ? "success" : "error", message: text }; }
+      const envelope = await res.json();
 
-      if (res.ok && (result.status === "success" || result.status === "ok")) {
-        setSubmitted(true);
-        resetForm();
-        setTimeout(() => { setSubmitted(false); onClose(); }, 2500);
-      } else {
-        throw new Error(result.message || `Server responded ${res.status}`);
+      if (!envelope || !envelope.ok) {
+        console.error("Forward failed:", envelope);
+        setError("Submission failed. Please try again.");
+        return;
       }
+
+      setSubmitted(true);
+      resetForm();
+      setTimeout(() => { setSubmitted(false); onClose(); }, 2500);
     } catch (err: any) {
       console.error("Submit error:", err);
-      setError("Submission failed. Please try again or contact via phone/WhatsApp.");
+      setError("Submission failed. Please check your connection or try again.");
     } finally {
       setLoading(false);
     }
@@ -62,7 +62,7 @@ const BookDemoModal: React.FC<Props> = ({ isOpen, onClose }) => {
         {submitted ? (
           <div className="py-12 text-center">
             <div className="text-2xl font-bold text-green-600">🎉 Thank you!</div>
-            <div className="mt-2 text-gray-700">Your request has been successfully submitted.</div>
+            <div className="mt-2 text-gray-700">Your request has been submitted.</div>
           </div>
         ) : (
           <>

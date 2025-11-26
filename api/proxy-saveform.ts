@@ -1,57 +1,87 @@
 // api/proxy-saveform.ts
-// FINAL STABLE VERSION — no errors, no missing types, full compatibility.
+// A safe JSON-only proxy for Google Apps Script.
+// Works on Vercel with zero configuration.
 
-const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL ||
-  'https://script.google.com/macros/s/AKfycbzhrhieMVZ9RYhnGrCA9e6OUr2wI5tl90SegwzFiS1XxSXo-b1hDKTPACL8DYoqJkNC/exec';
+const GOOGLE_SCRIPT_URL =
+  process.env.GOOGLE_SCRIPT_URL ||
+  "https://script.google.com/macros/s/AKfycbzhrhieMVZ9RYhnGrCA9e6OUr2wI5tl90SegwzFiS1XxSXo-b1hDKTPACL8DYoqJkNC/exec";
 
 export default async function handler(req: any, res: any) {
-  if (req.method === 'OPTIONS') {
-    res.setHeader('Allow', 'POST, OPTIONS');
+  // Preflight support
+  if (req.method === "OPTIONS") {
+    res.setHeader("Allow", "POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Headers", "*");
     return res.status(200).end();
   }
 
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method Not Allowed' });
+  // Only allow POST
+  if (req.method !== "POST") {
+    return res.status(405).json({
+      ok: false,
+      error: "Method Not Allowed",
+    });
   }
 
+  // Begin forwarding
   try {
-    const payload = req.body ?? {};
-    const forwardJson = String(process.env.FORWARD_JSON || 'false').toLowerCase() === 'true';
+    const payload = req.body || {};
+    const forwardJson =
+      String(process.env.FORWARD_JSON || "false").toLowerCase() === "true";
 
-    let fetchOptions: RequestInit = { method: 'POST' };
+    const fetchOptions: RequestInit = {
+      method: "POST",
+    };
 
+    // Forward as JSON to the script
     if (forwardJson) {
-      // Forward as JSON
-      fetchOptions.headers = { 'Content-Type': 'application/json' };
+      fetchOptions.headers = { "Content-Type": "application/json" };
       fetchOptions.body = JSON.stringify(payload);
-    } else {
-      // Forward as x-www-form-urlencoded (best compatibility for Google Apps Script)
+    }
+    // Forward as form-urlencoded
+    else {
       const params = new URLSearchParams();
       Object.entries(payload).forEach(([key, value]) => {
-        params.append(key, typeof value === 'string' ? value : JSON.stringify(value ?? ''));
+        params.append(
+          key,
+          typeof value === "string" ? value : JSON.stringify(value ?? "")
+        );
       });
 
-      fetchOptions.headers = { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' };
+      fetchOptions.headers = {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      };
       fetchOptions.body = params.toString();
     }
 
+    // Send request to Google Apps Script
     const forwardRes = await fetch(GOOGLE_SCRIPT_URL, fetchOptions);
     const text = await forwardRes.text();
 
-    // Try to respond with JSON if possible
+    // Wrap response in safe JSON
+    const envelope: any = {
+      ok: forwardRes.ok,
+      status: forwardRes.status,
+      statusText: forwardRes.statusText,
+      bodyText: text, // Always include raw text
+      jsonBody: null,
+    };
+
+    // Try to parse JSON if possible
     try {
-      const json = JSON.parse(text);
-      res.setHeader('Content-Type', 'application/json');
-      return res.status(forwardRes.status).json(json);
+      envelope.jsonBody = JSON.parse(text);
     } catch {
-      // Fallback: plain text
-      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-      return res.status(forwardRes.status).send(text);
+      envelope.jsonBody = null;
     }
+
+    res.setHeader("Content-Type", "application/json");
+    return res.status(200).json(envelope);
   } catch (err: any) {
-    console.error('proxy-saveform error:', err);
-    return res.status(502).json({
-      error: 'Failed to forward request',
+    console.error("Proxy error:", err);
+
+    return res.status(500).json({
+      ok: false,
+      error: "Internal Proxy Error",
       detail: err?.message ?? String(err),
     });
   }
