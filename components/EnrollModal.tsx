@@ -3,9 +3,20 @@ import React, { useState } from 'react';
 interface Props { isOpen: boolean; onClose: () => void; }
 
 const EnrollModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const [formData, setFormData] = useState({ name: '', contact: '', age: '', gender: '', course: '', level: '', email: '', enquiry: '' });
+  const [formData, setFormData] = useState({
+    name: '',
+    contact: '',
+    age: '',
+    gender: '',
+    course: '',
+    level: '',
+    email: '',
+    enquiry: '',
+    enquiryType: '' // optional but present
+  });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -14,30 +25,54 @@ const EnrollModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     setLoading(true);
 
-    const payload = { formType: 'enroll', source: 'Enroll Now', ...formData };
+    // Normalize payload keys expected by Apps Script
+    const payload = {
+      formType: 'enroll',
+      source: 'Enroll Now',
+      ...formData,
+      name: formData.name || '',
+      contact: formData.contact || formData.contact || '',
+      email: formData.email || '',
+      enquiryType: formData.enquiryType || 'Class Enquiry', // default for enroll
+      message: formData.enquiry || ''
+    };
 
     try {
       const res = await fetch('/api/proxy-saveform', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
 
       const envelope = await res.json();
       if (!envelope || !envelope.ok) {
-        console.error('Error:', envelope);
-        alert('Submission failed. Please try again.');
+        console.error('Enroll submission failed:', envelope);
+        setError('Submission failed. Please try again.');
         return;
       }
 
       setSubmitted(true);
-      setFormData({ name: '', contact: '', age: '', gender: '', course: '', level: '', email: '', enquiry: '' });
-      setTimeout(() => { setSubmitted(false); onClose(); }, 3000);
-    } catch (error) {
-      console.error(error);
-      alert('Network error. Please try again.');
+      setFormData({
+        name: '',
+        contact: '',
+        age: '',
+        gender: '',
+        course: '',
+        level: '',
+        email: '',
+        enquiry: '',
+        enquiryType: ''
+      });
+      setTimeout(() => {
+        setSubmitted(false);
+        onClose();
+      }, 2000);
+    } catch (err: any) {
+      console.error('Enroll error:', err);
+      setError('Network error. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -46,31 +81,42 @@ const EnrollModal: React.FC<Props> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl p-8 w-full max-w-xl shadow-xl relative">
-        <button className="absolute top-3 right-3 text-black text-2xl font-bold" onClick={onClose}>&times;</button>
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl p-6 w-full max-w-lg relative shadow-lg">
+        <button onClick={onClose} className="absolute top-3 right-3 text-2xl">&times;</button>
 
         {submitted ? (
-          <div className="text-center py-10 text-green-600 font-bold text-xl">🎉 Thank you! Enrollment submitted.</div>
+          <div className="text-center py-12">
+            <h3 className="text-2xl font-bold text-green-600">🎉 Enrollment submitted</h3>
+            <p className="mt-2">We will contact you soon.</p>
+          </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4 text-black">
-            <input type="text" name="name" placeholder="Full Name" value={formData.name} onChange={handleChange} required className="w-full border px-4 py-2 rounded" disabled={loading} />
-            <input type="tel" name="contact" placeholder="Contact Number" value={formData.contact} onChange={handleChange} required className="w-full border px-4 py-2 rounded" disabled={loading} />
-            <input type="number" name="age" placeholder="Age" value={formData.age} onChange={handleChange} required className="w-full border px-4 py-2 rounded" disabled={loading} />
-            <select name="gender" value={formData.gender} onChange={handleChange} required className="w-full border px-4 py-2 rounded" disabled={loading}>
-              <option value="">Select Gender</option><option value="Female">Female</option><option value="Male">Male</option><option value="Other">Other</option>
-            </select>
-            <select name="course" value={formData.course} onChange={handleChange} required className="w-full border px-4 py-2 rounded" disabled={loading}>
-              <option value="">Select Course</option><option value="Flute">Flute</option><option value="Tabla">Tabla</option><option value="Guitar">Guitar</option><option value="Harmonium">Harmonium</option>
-            </select>
-            <select name="level" value={formData.level} onChange={handleChange} required className="w-full border px-4 py-2 rounded" disabled={loading}>
-              <option value="">Select Level</option><option value="Beginner">Beginner</option><option value="Intermediate">Intermediate</option><option value="Advanced">Advanced</option>
-            </select>
-            <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required className="w-full border px-4 py-2 rounded" disabled={loading} />
-            <textarea name="enquiry" placeholder="Additional Enquiry" value={formData.enquiry} onChange={handleChange} rows={3} className="w-full border px-4 py-2 rounded" disabled={loading} />
-
-            <button type="submit" className="w-full bg-yellow-500 text-black py-2 rounded" disabled={loading}>{loading ? 'Sending...' : 'Submit'}</button>
-          </form>
+          <>
+            <h3 className="text-xl font-semibold mb-4 text-center">Enroll Now</h3>
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <input name="name" value={formData.name} onChange={handleChange} placeholder="Full Name" required className="w-full border rounded px-3 py-2" disabled={loading} />
+              <input name="contact" value={formData.contact} onChange={handleChange} placeholder="Contact Number (WhatsApp)" required className="w-full border rounded px-3 py-2" disabled={loading} />
+              <input name="email" type="email" value={formData.email} onChange={handleChange} placeholder="Email (optional)" className="w-full border rounded px-3 py-2" disabled={loading} />
+              <select name="course" value={formData.course} onChange={handleChange} required className="w-full border rounded px-3 py-2" disabled={loading}>
+                <option value="">Select Course</option>
+                <option value="Flute">Flute</option>
+                <option value="Tabla">Tabla</option>
+                <option value="Guitar">Guitar</option>
+                <option value="Harmonium">Harmonium</option>
+              </select>
+              <select name="level" value={formData.level} onChange={handleChange} required className="w-full border rounded px-3 py-2" disabled={loading}>
+                <option value="">Select Level</option>
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+              </select>
+              <textarea name="enquiry" value={formData.enquiry} onChange={handleChange} placeholder="Additional enquiry (optional)" rows={3} className="w-full border rounded px-3 py-2" disabled={loading} />
+              {error && <div className="text-sm text-red-600">{error}</div>}
+              <button type="submit" disabled={loading} className="w-full bg-yellow-500 text-black py-2 rounded font-semibold">
+                {loading ? 'Sending...' : 'Submit'}
+              </button>
+            </form>
+          </>
         )}
       </div>
     </div>
