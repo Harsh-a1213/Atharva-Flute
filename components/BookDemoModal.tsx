@@ -1,83 +1,98 @@
 import React, { useState } from "react";
 
 interface Props { isOpen: boolean; onClose: () => void; }
-interface FormData {
-  name: string; contact: string; email?: string;
-  course: string; age: string; gender: string; enquiryType: string;
-}
+
+const inputClass = "w-full border border-gray-300 bg-white text-gray-800 placeholder-gray-500 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400";
 
 const BookDemoModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const [formData, setFormData] = useState<FormData>({
-    name: "", contact: "", email: "", course: "", age: "", gender: "", enquiryType: ""
+  const [formData, setFormData] = useState({
+    name: "",
+    contact: "",
+    email: "",
+    course: "",
+    age: "",
+    gender: "",
+    enquiryType: ""
   });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  if (!isOpen) return null;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const resetForm = () => setFormData({ name: "", contact: "", email: "", course: "", age: "", gender: "", enquiryType: "" });
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
+
+    const payload = {
+      formType: "book-demo",
+      source: "Website - Book Demo Modal",
+      ...formData,
+      name: (formData.name || "").trim(),
+      contact: (formData.contact || formData.email || "").trim(),
+      email: (formData.email || "").trim(),
+      enquiryType: formData.enquiryType || "Demo Class Scheduling"
+    };
+
+    if (!payload.name || !payload.contact) {
+      setError("Please enter your name and a phone number or email.");
+      setLoading(false);
+      return;
+    }
 
     try {
       const res = await fetch("/api/proxy-saveform", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ formType: "book-demo", source: "Website - Book Demo Modal", ...formData })
+        body: JSON.stringify(payload),
       });
-
       const envelope = await res.json();
       if (!envelope || !envelope.ok) {
-        console.error("Forward failed:", envelope);
         setError("Submission failed. Please try again.");
         return;
       }
-
       setSubmitted(true);
-      resetForm();
-      setTimeout(() => { setSubmitted(false); onClose(); }, 2500);
-    } catch (err: any) {
-      console.error("Submit error:", err);
-      setError("Submission failed. Please check your connection or try again.");
+      setFormData({ name: "", contact: "", email: "", course: "", age: "", gender: "", enquiryType: "" });
+      setTimeout(() => { setSubmitted(false); onClose(); }, 1800);
+    } catch (err) {
+      console.error(err);
+      setError("Network error. Try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-      <div className="bg-white text-gray-900 w-full max-w-lg rounded-2xl p-6 relative shadow-2xl">
-        <button onClick={onClose} className="absolute top-3 right-3 text-2xl text-gray-500 hover:text-gray-800">&times;</button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60">
+      <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative text-gray-900">
+        <button onClick={onClose} aria-label="Close" className="absolute top-4 right-4 text-2xl text-gray-600 hover:text-gray-800">&times;</button>
 
         {submitted ? (
           <div className="py-12 text-center">
-            <div className="text-2xl font-bold text-green-600">🎉 Thank you!</div>
-            <div className="mt-2 text-gray-700">Your request has been submitted.</div>
+            <h3 className="text-2xl font-bold text-green-600">🎉 Thank you!</h3>
+            <p className="mt-2 text-gray-700">Your demo booking request has been received.</p>
           </div>
         ) : (
           <>
-            <h3 className="text-2xl font-semibold mb-5 text-center text-gray-800">Book Demo / Enquiry Form</h3>
+            <h3 className="text-2xl font-semibold mb-4 text-center">Book Demo / Enquiry</h3>
 
             <form onSubmit={handleSubmit} className="space-y-3">
-              <input name="name" value={formData.name} onChange={handleChange} placeholder="Full name" required disabled={loading}
-                className="w-full border rounded-lg px-3 py-2" />
+              <label className="sr-only" htmlFor="bd-name">Full name</label>
+              <input id="bd-name" name="name" value={formData.name} onChange={handleChange} placeholder="Full Name" className={inputClass} required disabled={loading} />
 
-              <input name="contact" value={formData.contact} onChange={handleChange} placeholder="Contact number" required disabled={loading}
-                className="w-full border rounded-lg px-3 py-2" />
+              <label className="sr-only" htmlFor="bd-contact">Contact</label>
+              <input id="bd-contact" name="contact" value={formData.contact} onChange={handleChange} placeholder="Contact Number (WhatsApp)" className={inputClass} required disabled={loading} />
 
-              <input name="email" value={formData.email} onChange={handleChange} placeholder="Email (optional)" type="email" disabled={loading}
-                className="w-full border rounded-lg px-3 py-2" />
+              <label className="sr-only" htmlFor="bd-email">Email</label>
+              <input id="bd-email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="Email (optional)" className={inputClass} disabled={loading} />
 
-              <select name="course" value={formData.course} onChange={handleChange} required disabled={loading} className="w-full border rounded-lg px-3 py-2">
+              <select name="course" value={formData.course} onChange={handleChange} className={inputClass} required disabled={loading}>
                 <option value="">Select Course</option>
                 <option value="Flute">Flute</option>
                 <option value="Tabla">Tabla</option>
@@ -85,23 +100,23 @@ const BookDemoModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 <option value="Harmonium">Harmonium</option>
               </select>
 
-              <select name="age" value={formData.age} onChange={handleChange} required disabled={loading} className="w-full border rounded-lg px-3 py-2">
-                <option value="">Select Age Group</option>
-                <option value="Under 10">Under 10</option>
-                <option value="10-18">10-18</option>
-                <option value="19-30">19-30</option>
-                <option value="31-50+">31-50+</option>
-              </select>
+              <div className="grid grid-cols-2 gap-3">
+                <select name="age" value={formData.age} onChange={handleChange} className={inputClass} disabled={loading}>
+                  <option value="">Select Age</option>
+                  <option>Under 10</option>
+                  <option>10-18</option>
+                  <option>19-30</option>
+                  <option>31-50+</option>
+                </select>
+                <select name="gender" value={formData.gender} onChange={handleChange} className={inputClass} disabled={loading}>
+                  <option value="">Select Gender</option>
+                  <option>Female</option>
+                  <option>Male</option>
+                  <option>Other</option>
+                </select>
+              </div>
 
-              <select name="gender" value={formData.gender} onChange={handleChange} required disabled={loading} className="w-full border rounded-lg px-3 py-2">
-                <option value="">Select Gender</option>
-                <option value="Female">Female</option>
-                <option value="Male">Male</option>
-                <option value="Other">Other</option>
-              </select>
-
-              {/* <-- IMPORTANT: value strings MUST match the allowed strings in Apps Script --> */}
-              <select name="enquiryType" value={formData.enquiryType} onChange={handleChange} required disabled={loading} className="w-full border rounded-lg px-3 py-2">
+              <select name="enquiryType" value={formData.enquiryType} onChange={handleChange} className={inputClass} required disabled={loading}>
                 <option value="">Select Enquiry Type</option>
                 <option value="Demo Class Scheduling">Book Free Trial</option>
                 <option value="Class Enquiry">Enroll in Class</option>
@@ -109,9 +124,9 @@ const BookDemoModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 <option value="Booking">Other Enquiry</option>
               </select>
 
-              {error && <div className="text-sm text-red-600 bg-red-50 border p-2 rounded">{error}</div>}
+              {error && <div className="text-sm text-red-600 bg-red-50 p-2 rounded">{error}</div>}
 
-              <button type="submit" disabled={loading} className="w-full bg-yellow-500 text-white py-2 rounded-lg">
+              <button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold py-3 rounded-lg shadow-md hover:brightness-95">
                 {loading ? "Sending..." : "Submit"}
               </button>
             </form>

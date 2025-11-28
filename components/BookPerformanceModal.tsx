@@ -1,31 +1,25 @@
 import React, { useState } from "react";
 
-interface Props {
-  isOpen: boolean;
-  onClose: () => void;
-}
+interface Props { isOpen: boolean; onClose: () => void; }
+
+const inputClass = "w-full border border-gray-300 bg-white text-gray-800 placeholder-gray-500 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400";
 
 const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
-    name: "",
-    contact: "",
-    email: "",
-    message: "",
-    enquiryType: ""
+    name: "", contact: "", email: "", date: "", time: "", place: "", eventType: "", message: "", enquiryType: ""
   });
-
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  if (!isOpen) return null; // <-- THIS requires isOpen to be passed from parent
+  if (!isOpen) return null;
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
@@ -34,15 +28,19 @@ const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
       formType: "performance",
       source: "Book Performance",
       ...formData,
-      name: formData.name.trim(),
-      contact: (formData.contact || formData.email).trim(),
+      name: (formData.name || "").trim(),
+      contact: (formData.contact || formData.email || "").trim(),
       email: (formData.email || "").trim(),
+      date: (formData.date || "").trim(),
+      time: (formData.time || "").trim(),
+      place: (formData.place || "").trim(),
+      eventType: (formData.eventType || "").trim(),
       message: (formData.message || "").trim(),
-      enquiryType: formData.enquiryType || "Performance/Concert Enquiry"
+      enquiryType: formData.enquiryType?.trim() || "Performance/Concert Enquiry"
     };
 
     if (!payload.name || !payload.contact) {
-      setError("Name and contact (phone/email) are required.");
+      setError("Please provide your name and a phone number or email.");
       setLoading(false);
       return;
     }
@@ -51,61 +49,65 @@ const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
       const res = await fetch("/api/proxy-saveform", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
-
       const envelope = await res.json();
-
-      if (!envelope?.ok) {
-        setError("Submission failed.");
+      if (!envelope || !envelope.ok) {
+        setError("Submission failed. Please try again.");
         return;
       }
-
       setSubmitted(true);
-      setTimeout(() => onClose(), 2000);
-
+      setFormData({ name: "", contact: "", email: "", date: "", time: "", place: "", eventType: "", message: "", enquiryType: "" });
+      setTimeout(() => { setSubmitted(false); onClose(); }, 1800);
     } catch (err) {
-      setError("Network error.");
+      console.error(err);
+      setError("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-      <div className="bg-white p-6 rounded-2xl w-full max-w-md relative">
-        <button onClick={onClose} className="absolute top-3 right-3 text-2xl">&times;</button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60">
+      <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative text-gray-900">
+        <button onClick={onClose} aria-label="Close" className="absolute top-4 right-4 text-2xl text-gray-600 hover:text-gray-800">&times;</button>
 
         {submitted ? (
-          <div className="text-center py-8">
-            <h3 className="text-green-600 text-2xl font-bold">🎉 Booking submitted!</h3>
+          <div className="py-12 text-center">
+            <h3 className="text-2xl font-bold text-green-600">🎉 Booking submitted</h3>
+            <p className="mt-2 text-gray-700">We will contact you soon about the performance details.</p>
           </div>
         ) : (
           <>
-            <h3 className="text-xl font-bold mb-4 text-center">Book Performance</h3>
+            <h3 className="text-2xl font-semibold mb-4 text-center">Book a Performance</h3>
+
             <form onSubmit={handleSubmit} className="space-y-3">
+              <input name="name" value={formData.name} onChange={handleChange} placeholder="Your Name" className={inputClass} required disabled={loading} />
+              <input name="contact" value={formData.contact} onChange={handleChange} placeholder="Contact Number (WhatsApp)" className={inputClass} required disabled={loading} />
+              <input name="email" type="email" value={formData.email} onChange={handleChange} placeholder="Email (optional)" className={inputClass} disabled={loading} />
 
-              <input name="name" value={formData.name} onChange={handleChange}
-                     placeholder="Your Name" required
-                     className="w-full border px-3 py-2 rounded" />
+              <div className="grid grid-cols-2 gap-3">
+                <input name="date" type="date" value={formData.date} onChange={handleChange} className={inputClass} />
+                <input name="time" type="time" value={formData.time} onChange={handleChange} className={inputClass} />
+              </div>
 
-              <input name="contact" value={formData.contact} onChange={handleChange}
-                     placeholder="Contact Number"
-                     className="w-full border px-3 py-2 rounded" />
+              <input name="place" value={formData.place} onChange={handleChange} placeholder="Event Location (city / venue)" className={inputClass} />
+              <input name="eventType" value={formData.eventType} onChange={handleChange} placeholder="Type of event (Wedding, Corporate...)" className={inputClass} />
 
-              <input name="email" type="email" value={formData.email} onChange={handleChange}
-                     placeholder="Email (optional)"
-                     className="w-full border px-3 py-2 rounded" />
+              <textarea name="message" value={formData.message} onChange={handleChange} placeholder="Event details / special requests" rows={4} className={inputClass + " resize-none"} />
 
-              <textarea name="message" value={formData.message} onChange={handleChange}
-                        rows={4} placeholder="Event details"
-                        className="w-full border px-3 py-2 rounded"></textarea>
+              <label className="block">
+                <select name="enquiryType" value={formData.enquiryType} onChange={handleChange} className={inputClass}>
+                  <option value="">Enquiry Type (optional)</option>
+                  <option value="Performance/Concert Enquiry">Book Show / Performance</option>
+                  <option value="Booking">Other Enquiry</option>
+                </select>
+              </label>
 
-              {error && <p className="text-red-600">{error}</p>}
+              {error && <div className="text-sm text-red-600 bg-red-50 p-2 rounded">{error}</div>}
 
-              <button type="submit"
-                      className="w-full bg-yellow-500 py-2 rounded font-bold">
-                {loading ? "Sending..." : "Submit"}
+              <button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold py-3 rounded-lg shadow">
+                {loading ? "Sending..." : "Submit Request"}
               </button>
             </form>
           </>

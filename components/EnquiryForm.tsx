@@ -1,13 +1,9 @@
 import React, { useState } from "react";
 
+const inputClass = "w-full border border-gray-300 bg-white text-gray-800 placeholder-gray-500 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400";
+
 const EnquiryForm: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-    enquiryType: "" // optional; will default to 'Booking' if empty
-  });
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "", enquiryType: "" });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -22,9 +18,7 @@ const EnquiryForm: React.FC = () => {
     setError(null);
     setLoading(true);
 
-    // Ensure required keys the Apps Script expects
     const contactFallback = (formData.phone || formData.email || "").trim();
-
     const payload = {
       formType: "enquiry",
       source: "Website - Enquiry Section",
@@ -35,7 +29,6 @@ const EnquiryForm: React.FC = () => {
       enquiryType: formData.enquiryType?.trim() || "Booking"
     };
 
-    // Basic front-end validation (name + contact/email)
     if (!payload.name || !payload.contact) {
       setError("Please provide your name and at least a phone number or email.");
       setLoading(false);
@@ -48,20 +41,16 @@ const EnquiryForm: React.FC = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-
       const envelope = await res.json();
       if (!envelope || !envelope.ok) {
-        console.error("Enquiry submission failed:", envelope);
         setError("Submission failed. Please try again.");
         return;
       }
-
       setSubmitted(true);
       setFormData({ name: "", email: "", phone: "", message: "", enquiryType: "" });
-      // keep success visible briefly
       setTimeout(() => setSubmitted(false), 2500);
-    } catch (err: any) {
-      console.error("Enquiry error:", err);
+    } catch (err) {
+      console.error(err);
       setError("Network error. Please try again.");
     } finally {
       setLoading(false);
@@ -70,82 +59,57 @@ const EnquiryForm: React.FC = () => {
 
   if (submitted) {
     return (
-      <section id="contact" className="py-20 bg-[var(--brand-gray)]">
+      <section id="contact" className="py-20 bg-[var(--brand-dark)]">
         <div className="container mx-auto px-6 text-center">
-          <h2 className="text-4xl font-serif font-bold text-[var(--brand-gold)] mb-4">Thank You!</h2>
-          <p className="text-lg text-[var(--brand-light)]">Your enquiry has been sent. We’ll get back to you shortly!</p>
+          <h2 className="text-3xl font-serif font-bold text-yellow-400 mb-2">Thank you!</h2>
+          <p className="text-gray-300">Your message has been sent. We will get back to you shortly.</p>
         </div>
       </section>
     );
   }
 
   return (
-    <section id="contact" className="py-20 bg-[var(--brand-gray)]">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-8">
-          <h2 className="text-4xl font-serif font-bold text-[var(--brand-gold)] mb-2">Enroll, Book & Inquire</h2>
-          <p className="text-lg text-[var(--brand-light)] max-w-3xl mx-auto">Ready to start your musical journey, book a performance, or have a question? Fill out the form below.</p>
-        </div>
+    <section id="contact" className="py-20 bg-[var(--brand-dark)]">
+      <div className="container mx-auto px-6 max-w-xl">
+        <h2 className="text-3xl font-serif font-bold text-yellow-400 mb-4 text-center">Enroll, Book & Inquire</h2>
+        <p className="text-gray-300 text-center mb-8">Ready to start your musical journey? Fill the form below.</p>
 
-        <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-[var(--brand-light)] mb-2">Full Name</label>
-            <input
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="w-full bg-[var(--brand-dark)] border border-gray-600 rounded-md py-3 px-4 text-white"
-              placeholder="Enter your full name"
-              disabled={loading}
-            />
-          </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <label className="block">
+            <span className="sr-only">Full name</span>
+            <input name="name" value={formData.name} onChange={handleChange} placeholder="Full name" className={inputClass} required disabled={loading} />
+          </label>
 
-          <div>
-            <label className="block text-sm font-medium text-[var(--brand-light)] mb-2">Email Address</label>
-            <input
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full bg-[var(--brand-dark)] border border-gray-600 rounded-md py-3 px-4 text-white"
-              placeholder="your@email.com"
-              disabled={loading}
-            />
-          </div>
+          <label className="block">
+            <span className="sr-only">Email</span>
+            <input name="email" type="email" value={formData.email} onChange={handleChange} placeholder="Email address" className={inputClass} disabled={loading} />
+          </label>
 
-          <div>
-            <label className="block text-sm font-medium text-[var(--brand-light)] mb-2">Phone Number (Optional)</label>
-            <input
-              name="phone"
-              type="tel"
-              value={formData.phone}
-              onChange={handleChange}
-              className="w-full bg-[var(--brand-dark)] border border-gray-600 rounded-md py-3 px-4 text-white"
-              placeholder="Optional - we'll prefer phone when available"
-              disabled={loading}
-            />
-          </div>
+          <label className="block">
+            <span className="sr-only">Phone</span>
+            <input name="phone" type="tel" value={formData.phone} onChange={handleChange} placeholder="Phone (optional)" className={inputClass} disabled={loading} />
+          </label>
 
-          <div>
-            <label className="block text-sm font-medium text-[var(--brand-light)] mb-2">Your Message</label>
-            <textarea
-              name="message"
-              rows={5}
-              value={formData.message}
-              onChange={handleChange}
-              required
-              placeholder="e.g., I’d like to know more about flute lessons..."
-              className="w-full bg-[var(--brand-dark)] border border-gray-600 rounded-md py-3 px-4 text-white"
-              disabled={loading}
-            />
-          </div>
+          <label className="block">
+            <span className="sr-only">Message</span>
+            <textarea name="message" rows={5} value={formData.message} onChange={handleChange} placeholder="Your message" className={inputClass + " resize-none"} required disabled={loading} />
+          </label>
 
-         
-          {error && <div className="text-sm text-red-600 bg-red-50 border p-2 rounded">{error}</div>}
+          <label className="block">
+            <span className="sr-only">Enquiry Type (optional)</span>
+            <select name="enquiryType" value={formData.enquiryType} onChange={handleChange} className={inputClass} disabled={loading}>
+              <option value="">Select enquiry type (optional)</option>
+              <option value="Demo Class Scheduling">Book Free Trial</option>
+              <option value="Class Enquiry">Enroll in Class</option>
+              <option value="Performance/Concert Enquiry">Book Show / Performance</option>
+              <option value="Booking">Other Enquiry</option>
+            </select>
+          </label>
+
+          {error && <div className="text-sm text-red-600 bg-red-50 p-2 rounded">{error}</div>}
 
           <div className="text-center">
-            <button type="submit" disabled={loading} className="bg-brand-gold text-brand-dark font-bold py-4 px-10 rounded-full text-lg">
+            <button type="submit" disabled={loading} className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold py-3 px-8 rounded-full shadow">
               {loading ? "Sending..." : "Send Message"}
             </button>
           </div>
