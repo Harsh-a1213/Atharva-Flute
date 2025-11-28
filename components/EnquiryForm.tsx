@@ -141,23 +141,7 @@ const EnquiryForm: React.FC = () => {
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-[var(--brand-light)] mb-2">Enquiry Type</label>
-            <select
-              name="enquiryType"
-              value={formData.enquiryType}
-              onChange={handleChange}
-              className="w-full bg-[var(--brand-dark)] border border-gray-600 rounded-md py-3 px-4 text-white"
-              disabled={loading}
-            >
-              <option value="">Select (optional)</option>
-              <option value="Demo Class Scheduling">Book Free Trial</option>
-              <option value="Class Enquiry">Enroll in Class</option>
-              <option value="Performance/Concert Enquiry">Book Show / Performance</option>
-              <option value="Booking">Other Enquiry</option>
-            </select>
-          </div>
-
+         
           {error && <div className="text-sm text-red-600 bg-red-50 border p-2 rounded">{error}</div>}
 
           <div className="text-center">

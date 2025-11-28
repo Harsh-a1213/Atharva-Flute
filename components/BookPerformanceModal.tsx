@@ -13,16 +13,19 @@ const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
     message: "",
     enquiryType: ""
   });
+
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  if (!isOpen) return null; // <-- THIS requires isOpen to be passed from parent
+
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
@@ -31,16 +34,15 @@ const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
       formType: "performance",
       source: "Book Performance",
       ...formData,
-      name: (formData.name || "").trim(),
-      contact: (formData.contact || formData.email || "").trim(),
+      name: formData.name.trim(),
+      contact: (formData.contact || formData.email).trim(),
       email: (formData.email || "").trim(),
       message: (formData.message || "").trim(),
-      enquiryType: formData.enquiryType?.trim() || "Performance/Concert Enquiry",
+      enquiryType: formData.enquiryType || "Performance/Concert Enquiry"
     };
 
-    // Basic front-end validation
     if (!payload.name || !payload.contact) {
-      setError("Please provide your name and at least a phone number or email.");
+      setError("Name and contact (phone/email) are required.");
       setLoading(false);
       return;
     }
@@ -49,105 +51,60 @@ const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
       const res = await fetch("/api/proxy-saveform", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(payload)
       });
 
       const envelope = await res.json();
-      if (!envelope || !envelope.ok) {
-        console.error("Performance submit failed:", envelope);
-        setError("Submission failed. Please try again.");
+
+      if (!envelope?.ok) {
+        setError("Submission failed.");
         return;
       }
 
       setSubmitted(true);
-      setFormData({ name: "", contact: "", email: "", message: "", enquiryType: "" });
-      setTimeout(() => {
-        setSubmitted(false);
-        onClose();
-      }, 2000);
-    } catch (err: any) {
-      console.error("Performance error:", err);
-      setError("Network error. Please try again.");
+      setTimeout(() => onClose(), 2000);
+
+    } catch (err) {
+      setError("Network error.");
     } finally {
       setLoading(false);
     }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl p-6 w-full max-w-md relative shadow-lg">
+    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+      <div className="bg-white p-6 rounded-2xl w-full max-w-md relative">
         <button onClick={onClose} className="absolute top-3 right-3 text-2xl">&times;</button>
 
         {submitted ? (
-          <div className="py-8 text-center">
-            <h3 className="text-2xl font-bold text-green-600">🎉 Booking submitted</h3>
-            <p className="mt-2">We will contact you about the performance details.</p>
+          <div className="text-center py-8">
+            <h3 className="text-green-600 text-2xl font-bold">🎉 Booking submitted!</h3>
           </div>
         ) : (
           <>
-            <h3 className="text-xl font-semibold mb-4 text-center">Book a Performance</h3>
-
+            <h3 className="text-xl font-bold mb-4 text-center">Book Performance</h3>
             <form onSubmit={handleSubmit} className="space-y-3">
-              <input
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Your Name"
-                required
-                className="w-full border rounded px-3 py-2"
-                disabled={loading}
-              />
 
-              <input
-                name="contact"
-                value={formData.contact}
-                onChange={handleChange}
-                placeholder="Contact Number"
-                required
-                className="w-full border rounded px-3 py-2"
-                disabled={loading}
-              />
+              <input name="name" value={formData.name} onChange={handleChange}
+                     placeholder="Your Name" required
+                     className="w-full border px-3 py-2 rounded" />
 
-              <input
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Email (optional)"
-                type="email"
-                className="w-full border rounded px-3 py-2"
-                disabled={loading}
-              />
+              <input name="contact" value={formData.contact} onChange={handleChange}
+                     placeholder="Contact Number"
+                     className="w-full border px-3 py-2 rounded" />
 
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="Event details / message"
-                rows={4}
-                className="w-full border rounded px-3 py-2"
-                disabled={loading}
-              />
+              <input name="email" type="email" value={formData.email} onChange={handleChange}
+                     placeholder="Email (optional)"
+                     className="w-full border px-3 py-2 rounded" />
 
-              <div>
-                <label className="text-sm block mb-1">Enquiry Type</label>
-                <select
-                  name="enquiryType"
-                  value={formData.enquiryType}
-                  onChange={handleChange as any}
-                  className="w-full border rounded px-3 py-2"
-                  disabled={loading}
-                >
-                  <option value="">Select (optional)</option>
-                  <option value="Performance/Concert Enquiry">Book Show / Performance</option>
-                  <option value="Booking">Other Enquiry</option>
-                </select>
-              </div>
+              <textarea name="message" value={formData.message} onChange={handleChange}
+                        rows={4} placeholder="Event details"
+                        className="w-full border px-3 py-2 rounded"></textarea>
 
-              {error && <div className="text-sm text-red-600">{error}</div>}
+              {error && <p className="text-red-600">{error}</p>}
 
-              <button type="submit" disabled={loading} className="w-full bg-brand-gold py-2 rounded text-brand-dark font-semibold">
+              <button type="submit"
+                      className="w-full bg-yellow-500 py-2 rounded font-bold">
                 {loading ? "Sending..." : "Submit"}
               </button>
             </form>

@@ -92,7 +92,7 @@ const EnrollModal: React.FC<Props> = ({ isOpen, onClose }) => {
           </div>
         ) : (
           <>
-            <h3 className="text-xl font-semibold mb-4 text-center">Enroll Now</h3>
+            <h3 className="text-xl font-semibold mb-4 text-black text-center">Enroll Now</h3>
             <form onSubmit={handleSubmit} className="space-y-3">
               <input name="name" value={formData.name} onChange={handleChange} placeholder="Full Name" required className="w-full border rounded px-3 py-2" disabled={loading} />
               <input name="contact" value={formData.contact} onChange={handleChange} placeholder="Contact Number (WhatsApp)" required className="w-full border rounded px-3 py-2" disabled={loading} />

@@ -5,25 +5,30 @@ import { heroImage } from './assets';
 interface HeroProps {
   openBookingModal: () => void;
   openEnrollModal: () => void;
+  openPerformanceModal: () => void;  // <-- ADDED
 }
 
-const Hero: React.FC<HeroProps> = ({ openBookingModal, openEnrollModal }) => {
+const Hero: React.FC<HeroProps> = ({
+  openBookingModal,
+  openEnrollModal,
+  openPerformanceModal, // <-- ADDED
+}) => {
   return (
     <section
       id="hero"
       className="relative min-h-screen lg:min-h-[750px] flex items-center justify-center text-center overflow-hidden"
     >
-            {/* Overlay */}
+      {/* Overlay */}
       <div className="absolute inset-0 bg-black opacity-60 z-10" />
 
-      {/* Background image */}
+      {/* Background */}
       <img
         src={heroImage}
         alt="Hero Background"
         className="absolute inset-0 w-full h-full object-cover object-top z-0"
       />
 
-      {/* Floating musical notes */}
+      {/* Floating notes */}
       <div className="absolute inset-0 z-10 pointer-events-none">
         {[...Array(20)].map((_, i) => (
           <motion.svg
@@ -46,30 +51,31 @@ const Hero: React.FC<HeroProps> = ({ openBookingModal, openEnrollModal }) => {
         ))}
       </div>
 
-      {/* Hero Content */}
+      {/* Content */}
       <motion.div
         className="relative z-20 px-6"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
-        <h1 className="text-4xl md:text-6xl font-serif font-bold text-white leading-tight mb-4 drop-shadow-md">
+        <h1 className="text-4xl md:text-6xl font-serif font-bold text-white mb-4">
           Join the Best Online & Offline Instrumental Classes
         </h1>
-        <p className="text-base md:text-xl text-brand-light font-light max-w-2xl mx-auto mb-8">
-          Learn from a passionate flautist from the culturally rich city of Nashik and start your musical journey today.
+        <p className="text-base md:text-xl text-brand-light max-w-2xl mx-auto mb-8">
+          Learn from a passionate flautist from Nashik and start your musical journey.
         </p>
 
         <div className="flex flex-col md:flex-row justify-center gap-6 mt-8">
           <button
             onClick={openBookingModal}
-            className="bg-brand-gold text-brand-dark font-bold py-4 px-10 rounded-full text-lg hover:bg-yellow-300 transition-transform transform hover:scale-105"
+            className="bg-brand-gold text-brand-dark font-bold py-4 px-10 rounded-full text-lg hover:bg-yellow-300"
           >
             Book a Free Trial
           </button>
+
           <button
             onClick={openEnrollModal}
-            className="bg-brand-gold text-brand-dark font-bold py-4 px-10 rounded-full text-lg hover:bg-yellow-300 transition-transform transform hover:scale-105"
+            className="bg-brand-gold text-brand-dark font-bold py-4 px-10 rounded-full text-lg hover:bg-yellow-300"
           >
             Enroll Now
           </button>
