@@ -27,7 +27,7 @@ const Performances: React.FC<PerformancesProps> = ({ openPerformanceModal }) => 
       <div className="container mx-auto px-6">
         
         <div className="text-center">
-          <h2 className="text-4xl font-serif font-bold text-brand-gold mb-6">
+          <h2 className="text-4xl font-serif font-bold text-center text-brand-gold mb-6">
             Performances for Every Occasion
           </h2>
           <p className="text-lg text-brand-light max-w-3xl mx-auto mb-12">

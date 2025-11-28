@@ -4,7 +4,7 @@ import Perform from "./assets/Perform.mp4"; // Import handles path resolution
 const VideoSlideshow: React.FC = () => {
   return (
     <section className="py-10 bg-black text-center" id="video-slideshow">
-      <h2 className="text-4xl font-serif font-bold text-brand-gold mb-6">
+      <h2 className="text-4xl font-serif font-bold text-center text-brand-gold mb-6">
         Live Performance Highlights
       </h2>
 
