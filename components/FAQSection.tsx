@@ -30,7 +30,7 @@ export default function FAQSection() {
 
   return (
 <section className="max-w-3xl mx-auto px-4 py-12 text-white">
-  <h2 className="text-3xl font-font-serif text-center mb-6 text-white">Frequently Asked Questions</h2>
+  <h2 className="text-4xl font-serif font-bold text-brand-gold mb-6">Frequently Asked Questions</h2>
   <p className="text-center text-gray-300 mb-10">
     Get answers to common questions about learning the  Flute.
   </p>

@@ -1,6 +1,6 @@
 const testimonials = [
   {
-    name: "Shouria Bhalelar",
+    name: "Shouria Bhalekar",
     location: "Texas, USA",
     level: "Beginner",
     text: "I was born outside India, but my roots were always strong at home through music. Learning the flute with Atharva sir has been a beautiful way to connect to my heritage. I’ve grown up listening to Indian melodies, and now being able to play them myself makes me feel both proud and emotionally connected. It’s more than music — it’s identity.",
@@ -23,7 +23,7 @@ const TestimonialSection = () => {
   return (
     <section className="py-16" style={{ backgroundColor: "#000000" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl text-white font-serif text-center mb-12">
+        <h2 className="text-4xl font-serif font-bold text-brand-gold mb-6">
           Student Experiences
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

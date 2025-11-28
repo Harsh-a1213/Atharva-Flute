@@ -71,7 +71,7 @@ const EnquiryForm: React.FC = () => {
   return (
     <section id="contact" className="py-20 bg-[var(--brand-dark)]">
       <div className="container mx-auto px-6 max-w-xl">
-        <h2 className="text-3xl font-serif font-bold text-yellow-400 mb-4 text-center">Enroll, Book & Inquire</h2>
+        <h2 className="text-4xl font-serif font-bold text-brand-gold mb-6">Enroll, Book & Inquire</h2>
         <p className="text-gray-300 text-center mb-8">Ready to start your musical journey? Fill the form below.</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
