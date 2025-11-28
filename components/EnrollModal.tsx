@@ -29,7 +29,7 @@ const EnrollModal: React.FC<Props> = ({ isOpen, onClose }) => {
       source: "Enroll Now",
       ...formData,
       name: (formData.name || "").trim(),
-      contact: (formData.contact || formData.phone || formData.email || "").trim(),
+      contact: (formData.contact || formData.contact || formData.email || "").trim(),
       email: (formData.email || "").trim(),
       enquiryType: "Class Enquiry",
       message: formData.enquiry || ""
