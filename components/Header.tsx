@@ -34,7 +34,7 @@ const Header: React.FC = () => {
           <img
             src={logo}
             alt="Logo"
-            className="h-full max-h-20 w-auto object-contain"
+            className="h-full max-h-30 w-auto object-contain"
           />
         </a>
 
