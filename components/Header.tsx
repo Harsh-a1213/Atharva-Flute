@@ -33,7 +33,7 @@ const Header: React.FC = () => {
         <a href="#hero" className="h-full flex items-center">
           <img
             src={logo}
-            alt="Logo"
+            alt="a-logo"
             className="h-full max-h-30 w-auto object-contain"
           />
         </a>
