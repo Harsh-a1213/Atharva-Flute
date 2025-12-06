@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import logo from "./assets/Logo.png";
+import logo from "./assets/a-logo.png";
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +33,7 @@ const Header: React.FC = () => {
         <a href="#hero" className="h-full flex items-center">
           <img
             src={logo}
-            alt="a-logo"
+            alt="a-logo.png"
             className="h-full max-h-30 w-auto object-contain"
           />
         </a>
