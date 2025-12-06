@@ -31,8 +31,8 @@ const Header: React.FC = () => {
         {/* Logo */}
         <a href="#hero" className="h-full flex items-center">
           <img
-          src="/a-logo.png"                // ✅ from /public folder
-          alt="Atharva Flute logo"
+          src="/Logo.png"                // ✅ from /public folder
+          alt="Logo"
           className="h-full max-h-30 w-auto object-contain"
 
           />
