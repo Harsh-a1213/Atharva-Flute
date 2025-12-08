@@ -1,14 +1,13 @@
+// src/components/Header.tsx
 import React, { useState, useEffect } from 'react';
+import logo from './assets/Logo.png'; // <- adjust relative path if needed
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Sticky scroll effect
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -31,10 +30,13 @@ const Header: React.FC = () => {
         {/* Logo */}
         <a href="#hero" className="h-full flex items-center">
           <img
-          src="/Logo.png"                // ✅ from /public folder
-          alt="Logo"
-          className="h-full max-h-30 w-auto object-contain"
-
+            src={logo}
+            alt="Atharva Flute Academy"
+            className="h-12 md:h-14 w-auto object-contain"
+            width={180}
+            height={56}
+            loading="eager"
+            decoding="async"
           />
         </a>
 
@@ -53,7 +55,7 @@ const Header: React.FC = () => {
 
         {/* Mobile Hamburger */}
         <div className="md:hidden">
-          <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none">
+          <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none" aria-label="Open menu">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {isOpen ? (
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
