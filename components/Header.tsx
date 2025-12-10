@@ -1,6 +1,6 @@
 // src/components/Header.tsx
 import React, { useEffect, useState } from "react";
-import logo from "./assets/logo.png";
+import logo from "./assets/Logo.png";
 
 const navLinks = [
   { href: "#about", label: "About" },
