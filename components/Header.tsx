@@ -51,7 +51,8 @@ const Header: React.FC = () => {
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? "backdrop-blur-lg bg-black/70 shadow-md" : "bg-black/40"
+        isScrolled ? "backdrop-blur-lg bg-black/60 shadow-md" : "bg-black/20"
+
       }`}
       role="banner"
     >
@@ -62,9 +63,9 @@ const Header: React.FC = () => {
             <img
               src={Logo}
               alt="Atharva Flute Logo"
-              className="h-10 md:h-12 lg:h-14 w-auto object-contain"
-              width={180}
-              height={56}
+              className="h-14 md:h-16 lg:h-20 w-auto object-contain contrast-125 brightness-110"
+              width={240}
+              height={80}
               loading="eager"
               decoding="async"
             />
