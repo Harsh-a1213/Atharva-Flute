@@ -1,6 +1,6 @@
-// src/components/Header.tsx
+// components/Header.tsx
 import React, { useEffect, useState } from "react";
-import logo from "./assets/Logo.png";
+import Logo from "./assets/Logo.png"; // <-- exact, case-sensitive path
 
 const navLinks = [
   { href: "#about", label: "About" },
@@ -14,7 +14,7 @@ const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Toggle mobile menu and prevent body scroll when open
+  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => {
@@ -57,19 +57,19 @@ const Header: React.FC = () => {
     >
       <div className="max-w-screen-xl mx-auto px-4 h-20 flex items-center justify-between">
         {/* Logo */}
-  <a href="#hero" className="h-full flex items-center" aria-label="Go to top / hero">
-  <picture>
-    <img
-      src={logo}
-      alt="Logo"
-      className="h-10 md:h-12 lg:h-14 w-auto object-contain"
-      width={180}
-      height={56}
-      loading="eager"
-      decoding="async"
-    />
-  </picture>
-</a>
+        <a href="#hero" className="h-full flex items-center" aria-label="Go to top / hero">
+          <picture>
+            <img
+              src={Logo}
+              alt="Atharva Flute Logo"
+              className="h-10 md:h-12 lg:h-14 w-auto object-contain"
+              width={180}
+              height={56}
+              loading="eager"
+              decoding="async"
+            />
+          </picture>
+        </a>
 
         {/* Desktop Nav */}
         <nav
