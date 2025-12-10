@@ -1,4 +1,4 @@
-import heroImageFile from "./assets/flower-aiart.jpg";
+import heroImageFile from "./assets/Atharva.jpg";
 import instructorImageFile from "./assets/hero.jpg";
 import performance1 from "./assets/wedding.jpeg";
 import performance2 from "./assets/bhajan.jpeg";

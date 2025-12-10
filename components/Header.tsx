@@ -1,7 +1,6 @@
 // src/components/Header.tsx
 import React, { useEffect, useState } from "react";
-import logo from "./assets/Logo-500px.png"; // <- keep this relative path if Logo.png is at src/components/assets/Logo.png
-import logoWebp from "./assets/logo.webp";
+import logo from "./assets/logo.png";
 
 const navLinks = [
   { href: "#about", label: "About" },
@@ -60,10 +59,9 @@ const Header: React.FC = () => {
         {/* Logo */}
   <a href="#hero" className="h-full flex items-center" aria-label="Go to top / hero">
   <picture>
-    <source srcSet={logoWebp} type="image/webp" />
     <img
       src={logo}
-      alt="Atharva Flute Academy"
+      alt="Logo"
       className="h-10 md:h-12 lg:h-14 w-auto object-contain"
       width={180}
       height={56}
