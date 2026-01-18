@@ -6,7 +6,7 @@ interface Props {
 }
 
 const inputClass =
-  "w-full border border-gray-300 bg-white text-gray-800 placeholder-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400";
+  "w-full border border-gray-300 bg-white text-gray-800 placeholder-gray-500 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400";
 
 const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -45,20 +45,15 @@ const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
       formType: "performance",
       source: "Book Performance",
       ...formData,
-      name: (formData.name || "").trim(),
-      contact: (formData.contact || formData.email || "").trim(),
-      email: (formData.email || "").trim(),
-      date: (formData.date || "").trim(),
-      time: (formData.time || "").trim(),
-      place: (formData.place || "").trim(),
-      eventType: (formData.eventType || "").trim(),
-      message: (formData.message || "").trim(),
+      name: formData.name.trim(),
+      contact: (formData.contact || formData.email).trim(),
+      email: formData.email.trim(),
       enquiryType:
-        formData.enquiryType?.trim() || "Performance/Concert Enquiry",
+        formData.enquiryType || "Performance/Concert Enquiry",
     };
 
     if (!payload.name || !payload.contact) {
-      setError("Please provide your name and a phone number or email.");
+      setError("Please provide your name and contact details.");
       setLoading(false);
       return;
     }
@@ -71,30 +66,17 @@ const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
       });
 
       const envelope = await res.json();
-      if (!envelope || !envelope.ok) {
+      if (!envelope?.ok) {
         setError("Submission failed. Please try again.");
         return;
       }
 
       setSubmitted(true);
-      setFormData({
-        name: "",
-        contact: "",
-        email: "",
-        date: "",
-        time: "",
-        place: "",
-        eventType: "",
-        message: "",
-        enquiryType: "",
-      });
-
       setTimeout(() => {
         setSubmitted(false);
         onClose();
       }, 1800);
-    } catch (err) {
-      console.error(err);
+    } catch {
       setError("Network error. Please try again.");
     } finally {
       setLoading(false);
@@ -102,115 +84,95 @@ const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70">
-      <div className="bg-white rounded-3xl max-w-xl w-full p-8 shadow-2xl relative text-gray-900">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
+      <div className="bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-hidden shadow-2xl relative">
 
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          aria-label="Close"
-          className="absolute top-4 right-4 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-700 hover:bg-gray-200"
-        >
-          &times;
-        </button>
+        {/* HEADER */}
+        <div className="sticky top-0 bg-white z-10 px-6 py-4 border-b">
+          <h3 className="text-2xl font-serif font-bold text-center">
+            Book a Performance
+          </h3>
+          <p className="text-center text-gray-500 text-sm">
+            Let soulful live music elevate your special event
+          </p>
 
-        {submitted ? (
-          <div className="py-14 text-center">
-            <h3 className="text-2xl font-bold text-green-600">
-              🎉 Booking Submitted
-            </h3>
-            <p className="mt-3 text-gray-700">
-              We’ll contact you shortly with performance details.
-            </p>
-          </div>
-        ) : (
-          <>
-            {/* Header */}
-            <h3 className="text-3xl font-serif font-bold text-center mb-1">
-              Book a Performance
-            </h3>
-            <p className="text-center text-gray-500 mb-6">
-              Let soulful live music elevate your special event.
-            </p>
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-xl font-bold"
+            aria-label="Close"
+          >
+            ×
+          </button>
+        </div>
 
+        {/* BODY */}
+        <div className="overflow-y-auto px-6 py-5">
+          {submitted ? (
+            <div className="py-12 text-center">
+              <h3 className="text-2xl font-bold text-green-600">
+                🎉 Booking Submitted
+              </h3>
+              <p className="mt-2 text-gray-700">
+                We’ll contact you shortly.
+              </p>
+            </div>
+          ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               <input
                 name="name"
-                value={formData.name}
-                onChange={handleChange}
                 placeholder="Your Name"
                 className={inputClass}
+                onChange={handleChange}
                 required
-                disabled={loading}
               />
 
               <input
                 name="contact"
-                value={formData.contact}
-                onChange={handleChange}
                 placeholder="Contact Number (WhatsApp)"
                 className={inputClass}
+                onChange={handleChange}
                 required
-                disabled={loading}
               />
 
               <input
                 name="email"
                 type="email"
-                value={formData.email}
-                onChange={handleChange}
                 placeholder="Email (optional)"
                 className={inputClass}
-                disabled={loading}
+                onChange={handleChange}
               />
 
-              <div className="grid grid-cols-2 gap-4">
-                <input
-                  name="date"
-                  type="date"
-                  value={formData.date}
-                  onChange={handleChange}
-                  className={inputClass}
-                />
-                <input
-                  name="time"
-                  type="time"
-                  value={formData.time}
-                  onChange={handleChange}
-                  className={inputClass}
-                />
+              <div className="grid grid-cols-2 gap-3">
+                <input type="date" name="date" className={inputClass} onChange={handleChange} />
+                <input type="time" name="time" className={inputClass} onChange={handleChange} />
               </div>
 
               <input
                 name="place"
-                value={formData.place}
-                onChange={handleChange}
                 placeholder="Event Location (city / venue)"
                 className={inputClass}
+                onChange={handleChange}
               />
 
               <input
                 name="eventType"
-                value={formData.eventType}
-                onChange={handleChange}
                 placeholder="Type of event (Wedding, Corporate...)"
                 className={inputClass}
+                onChange={handleChange}
               />
 
               <textarea
                 name="message"
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="Event details / special requests"
                 rows={4}
+                placeholder="Event details / special requests"
                 className={inputClass + " resize-none"}
+                onChange={handleChange}
               />
 
               <select
                 name="enquiryType"
-                value={formData.enquiryType}
-                onChange={handleChange}
                 className={inputClass}
+                onChange={handleChange}
               >
                 <option value="">Enquiry Type (optional)</option>
                 <option value="Performance/Concert Enquiry">
@@ -228,13 +190,13 @@ const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full mt-2 bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold py-3 rounded-full shadow-lg hover:brightness-95"
+                className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold py-3 rounded-lg shadow"
               >
                 {loading ? "Sending..." : "Submit Request"}
               </button>
             </form>
-          </>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
