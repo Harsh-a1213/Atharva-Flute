@@ -36,20 +36,16 @@ const Header: React.FC = () => {
           : "bg-black/30"
       }`}
     >
-      {/* MAIN BAR */}
-      <div className="max-w-screen-xl mx-auto px-6 py-3 flex items-center justify-between">
+      {/* HEADER BAR */}
+      <div className="max-w-screen-xl mx-auto px-4 py-2 md:px-6 md:py-3 flex items-center justify-between">
         
         {/* LOGO */}
-        <a
-          href="#hero"
-          aria-label="Athrva Flute Home"
-          className="flex items-center"
-        >
+        <a href="#hero" aria-label="Athrva Flute Home" className="flex items-center">
           <img
             src={Logo}
             alt="Athrva Flute Logo"
             className="
-              max-h-[64px]
+              max-h-[52px]
               md:max-h-[70px]
               lg:max-h-[76px]
               w-auto
@@ -63,19 +59,32 @@ const Header: React.FC = () => {
         </a>
 
         {/* DESKTOP NAV */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-10">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-white font-medium tracking-wide hover:text-yellow-400 transition-colors"
+              className="
+                relative
+                text-[15px]
+                font-semibold
+                tracking-wide
+                text-white
+                transition-colors duration-300
+                hover:text-yellow-400
+                after:absolute after:left-0 after:-bottom-1
+                after:h-[2px] after:w-0
+                after:bg-yellow-400
+                after:transition-all after:duration-300
+                hover:after:w-full
+              "
             >
               {link.label}
             </a>
           ))}
         </nav>
 
-        {/* MOBILE BUTTON */}
+        {/* MOBILE MENU BUTTON */}
         <button
           onClick={() => setIsOpen((v) => !v)}
           className="md:hidden text-white p-2 focus:outline-none"
@@ -106,19 +115,28 @@ const Header: React.FC = () => {
         </button>
       </div>
 
-      {/* MOBILE MENU */}
+      {/* MOBILE NAV */}
       <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ${
-          isOpen ? "max-h-[400px]" : "max-h-0"
-        } bg-black/90 backdrop-blur-md`}
+        className={`md:hidden overflow-hidden transition-all duration-300 ease-out ${
+          isOpen ? "max-h-[420px] opacity-100" : "max-h-0 opacity-0"
+        } bg-black/95 backdrop-blur-lg`}
       >
-        <div className="flex flex-col items-center py-6 space-y-4">
+        <div className="flex flex-col items-center py-6">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="text-white text-lg hover:text-yellow-400 transition"
+              className="
+                w-full text-center
+                py-3
+                text-lg
+                font-semibold
+                tracking-wide
+                text-white
+                hover:text-yellow-400
+                transition
+              "
             >
               {link.label}
             </a>
