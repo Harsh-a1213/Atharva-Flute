@@ -28,10 +28,12 @@ const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -43,15 +45,15 @@ const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
       formType: "performance",
       source: "Book Performance",
       ...formData,
-      name: (formData.name || "").trim(),
-      contact: (formData.contact || formData.email || "").trim(),
-      email: (formData.email || "").trim(),
+      name: formData.name.trim(),
+      contact: (formData.contact || formData.email).trim(),
+      email: formData.email.trim(),
       enquiryType:
         formData.enquiryType || "Performance/Concert Enquiry",
     };
 
     if (!payload.name || !payload.contact) {
-      setError("Please provide your name and a phone number or email.");
+      setError("Please provide your name and contact details.");
       setLoading(false);
       return;
     }
@@ -64,7 +66,7 @@ const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
       });
 
       const envelope = await res.json();
-      if (!envelope || !envelope.ok) {
+      if (!envelope?.ok) {
         setError("Submission failed. Please try again.");
         return;
       }
@@ -75,6 +77,7 @@ const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
         onClose();
       }, 1800);
     } catch (err) {
+      console.error(err);
       setError("Network error. Please try again.");
     } finally {
       setLoading(false);
@@ -82,41 +85,42 @@ const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
-      <div className="bg-white rounded-2xl w-full max-w-lg max-h-[90vh] flex flex-col shadow-2xl">
-
-        {/* HEADER */}
-        <div className="relative px-6 py-4 border-b">
-          <h3 className="text-2xl font-serif font-bold text-center">
-            Book a Performance
-          </h3>
-          <p className="text-sm text-gray-500 text-center mt-1">
-            Let soulful live music elevate your special event
-          </p>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
+      <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden">
+        
+        {/* HEADER (STICKY) */}
+        <div className="flex items-center justify-between px-6 py-4 border-b sticky top-0 bg-white z-10">
+          <div>
+            <h3 className="text-2xl font-bold text-gray-900">
+              Book a Performance
+            </h3>
+            <p className="text-sm text-gray-500">
+              Let soulful live music elevate your special event
+            </p>
+          </div>
 
           <button
             onClick={onClose}
             aria-label="Close"
-            className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200"
+            className="text-2xl font-bold text-gray-500 hover:text-gray-800"
           >
-            ✕
+            ×
           </button>
         </div>
 
         {/* BODY (SCROLLABLE) */}
-        <div className="px-6 py-5 overflow-y-auto">
+        <div className="px-6 py-5 max-h-[70vh] overflow-y-auto">
           {submitted ? (
-            <div className="py-16 text-center">
+            <div className="py-12 text-center">
               <h3 className="text-2xl font-bold text-green-600">
-                🎉 Booking submitted
+                🎉 Booking Submitted
               </h3>
               <p className="mt-2 text-gray-700">
-                We’ll contact you soon with performance details.
+                We’ll contact you shortly with details.
               </p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
-
               <input
                 name="name"
                 value={formData.name}
@@ -165,7 +169,7 @@ const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 name="place"
                 value={formData.place}
                 onChange={handleChange}
-                placeholder="Event location (city / venue)"
+                placeholder="Event Location (City / Venue)"
                 className={inputClass}
               />
 
@@ -173,7 +177,7 @@ const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 name="eventType"
                 value={formData.eventType}
                 onChange={handleChange}
-                placeholder="Type of event (Wedding, Corporate...)"
+                placeholder="Type of Event (Wedding, Corporate...)"
                 className={inputClass}
               />
 
@@ -181,8 +185,8 @@ const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
-                placeholder="Event details / special requests"
                 rows={4}
+                placeholder="Event details / special requests"
                 className={inputClass + " resize-none"}
               />
 
@@ -208,11 +212,10 @@ const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold py-3 rounded-lg shadow hover:brightness-95"
+                className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold py-3 rounded-xl shadow hover:brightness-95 transition"
               >
                 {loading ? "Sending..." : "Submit Request"}
               </button>
-
             </form>
           )}
         </div>
