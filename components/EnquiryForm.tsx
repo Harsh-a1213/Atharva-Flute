@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const inputClass =
-  "w-full border border-gray-300 bg-white text-gray-800 placeholder-gray-500 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400";
+  "w-full border border-gray-300 bg-white text-gray-800 placeholder-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400";
 
 const EnquiryForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -83,9 +83,9 @@ const EnquiryForm: React.FC = () => {
 
   if (submitted) {
     return (
-      <section id="contact" className="py-20 bg-[var(--brand-dark)]">
+      <section id="contact" className="py-24 bg-brand-dark">
         <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl font-serif font-bold text-yellow-400 mb-2">
+          <h2 className="text-3xl font-serif font-bold text-brand-gold mb-2">
             Thank you!
           </h2>
           <p className="text-gray-300">
@@ -97,19 +97,18 @@ const EnquiryForm: React.FC = () => {
   }
 
   return (
-    <section id="contact" className="py-20 bg-[var(--brand-dark)]">
-      <div className="container mx-auto px-6 max-w-xl">
-        <h2 className="text-4xl font-serif font-bold text-center text-brand-gold mb-6">
-          Enroll, Book & Inquire
-        </h2>
+    <section id="contact" className="py-24 bg-brand-dark">
+      <div className="container mx-auto px-6 max-w-2xl">
+        <div className="bg-brand-gray rounded-3xl p-8 shadow-2xl">
+          <h2 className="text-4xl font-serif font-bold text-center text-brand-gold mb-2">
+            Enroll, Book & Inquire
+          </h2>
 
-        <p className="text-gray-300 text-center mb-8">
-          Ready to start your musical journey? Fill the form below.
-        </p>
+          <p className="text-gray-300 text-center mb-8">
+            Ready to start your musical journey? Fill the form below.
+          </p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <label className="block">
-            <span className="sr-only">Full name</span>
+          <form onSubmit={handleSubmit} className="space-y-5">
             <input
               name="name"
               value={formData.name}
@@ -119,10 +118,7 @@ const EnquiryForm: React.FC = () => {
               required
               disabled={loading}
             />
-          </label>
 
-          <label className="block">
-            <span className="sr-only">Email</span>
             <input
               name="email"
               type="email"
@@ -132,10 +128,7 @@ const EnquiryForm: React.FC = () => {
               className={inputClass}
               disabled={loading}
             />
-          </label>
 
-          <label className="block">
-            <span className="sr-only">Phone</span>
             <input
               name="phone"
               type="tel"
@@ -145,10 +138,7 @@ const EnquiryForm: React.FC = () => {
               className={inputClass}
               disabled={loading}
             />
-          </label>
 
-          <label className="block">
-            <span className="sr-only">Message</span>
             <textarea
               name="message"
               rows={5}
@@ -159,10 +149,7 @@ const EnquiryForm: React.FC = () => {
               required
               disabled={loading}
             />
-          </label>
 
-          <label className="block">
-            <span className="sr-only">Enquiry Type (optional)</span>
             <select
               name="enquiryType"
               value={formData.enquiryType}
@@ -178,24 +165,24 @@ const EnquiryForm: React.FC = () => {
               </option>
               <option value="Booking">Other Enquiry</option>
             </select>
-          </label>
 
-          {error && (
-            <div className="text-sm text-red-600 bg-red-50 p-2 rounded">
-              {error}
+            {error && (
+              <div className="text-sm text-red-600 bg-red-50 p-2 rounded">
+                {error}
+              </div>
+            )}
+
+            <div className="text-center pt-2">
+              <button
+                type="submit"
+                disabled={loading}
+                className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold py-3 px-10 rounded-full shadow-lg hover:brightness-95"
+              >
+                {loading ? "Sending..." : "Send Message"}
+              </button>
             </div>
-          )}
-
-          <div className="text-center">
-            <button
-              type="submit"
-              disabled={loading}
-              className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold py-3 px-8 rounded-full shadow"
-            >
-              {loading ? "Sending..." : "Send Message"}
-            </button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </section>
   );

@@ -6,7 +6,7 @@ interface Props {
 }
 
 const inputClass =
-  "w-full border border-gray-300 bg-white text-gray-800 placeholder-gray-500 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400";
+  "w-full border border-gray-300 bg-white text-gray-800 placeholder-gray-500 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400";
 
 const EnrollModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -45,8 +45,7 @@ const EnrollModal: React.FC<Props> = ({ isOpen, onClose }) => {
       source: "Enroll Now",
       ...formData,
       name: (formData.name || "").trim(),
-      contact:
-        (formData.contact || formData.email || "").trim(),
+      contact: (formData.contact || formData.email || "").trim(),
       email: (formData.email || "").trim(),
       enquiryType: "Class Enquiry",
       message: formData.enquiry || "",
@@ -97,7 +96,7 @@ const EnrollModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60">
-      <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative text-gray-900">
+      <div className="bg-white rounded-3xl max-w-xl w-full p-8 shadow-2xl relative text-gray-900">
         <button
           onClick={onClose}
           aria-label="Close"
@@ -107,21 +106,24 @@ const EnrollModal: React.FC<Props> = ({ isOpen, onClose }) => {
         </button>
 
         {submitted ? (
-          <div className="py-12 text-center">
+          <div className="py-14 text-center">
             <h3 className="text-2xl font-bold text-green-600">
-              🎉 Enrollment submitted
+              🎉 Enrollment Submitted
             </h3>
-            <p className="mt-2 text-gray-700">
-              We will contact you with next steps.
+            <p className="mt-3 text-gray-700">
+              We’ll contact you soon with next steps.
             </p>
           </div>
         ) : (
           <>
-            <h3 className="text-2xl font-semibold mb-4 text-center">
+            <h3 className="text-3xl font-serif font-bold text-center mb-1">
               Enroll Now
             </h3>
+            <p className="text-center text-gray-500 mb-6">
+              Start your musical journey with expert guidance.
+            </p>
 
-            <form onSubmit={handleSubmit} className="space-y-3">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <input
                 name="name"
                 value={formData.name}
@@ -152,7 +154,7 @@ const EnrollModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 disabled={loading}
               />
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-4">
                 <select
                   name="course"
                   value={formData.course}
@@ -202,7 +204,7 @@ const EnrollModal: React.FC<Props> = ({ isOpen, onClose }) => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold py-3 rounded-lg shadow"
+                className="w-full mt-2 bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold py-3 rounded-full shadow-lg hover:brightness-95"
               >
                 {loading ? "Sending..." : "Submit"}
               </button>
