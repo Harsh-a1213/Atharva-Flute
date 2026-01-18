@@ -1,6 +1,6 @@
 // components/Header.tsx
 import React, { useEffect, useState } from "react";
-import Logo from "./assets/Logo.png"; // <-- exact, case-sensitive path
+import Logo from "./assets/Logo.png";
 
 const navLinks = [
   { href: "#about", label: "About" },
@@ -14,24 +14,6 @@ const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Prevent body scroll when mobile menu is open
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
-
-  // Close mobile menu on Escape
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsOpen(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
-
-  // Sticky header
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -39,132 +21,108 @@ const Header: React.FC = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close mobile menu when resizing to desktop
   useEffect(() => {
-    const onResize = () => {
-      if (window.innerWidth >= 768) setIsOpen(false);
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
     };
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
+  }, [isOpen]);
 
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? "backdrop-blur-lg bg-black/60 shadow-md" : "bg-black/20"
-
+        isScrolled
+          ? "bg-black/60 backdrop-blur-lg shadow-md"
+          : "bg-black/30"
       }`}
-      role="banner"
     >
-      <div className="max-w-screen-xl mx-auto px-4 min-h-[88px] flex items-center justify-between">
-
-        {/* Logo */}
-          <a
-            href="#hero"
-            className="hidden md:flex items-center space-x-8 translate-y-[1px]"
-            aria-label="Go to top / hero"
-          >
-          <picture>
-            <img
-              src={Logo}
-              alt="Atharva Flute Logo"
-              className="
-                max-h-[56px] 
-                md:max-h-[64px] 
-                lg:max-h-[68px]
-                w-auto 
-                object-contain 
-                contrast-125 
-                brightness-110
-                translate-y-[1px]
-              "
-              width={240}
-              height={80}
-              loading="eager"
-              decoding="async"
-            />
-          </picture>
+      {/* MAIN BAR */}
+      <div className="max-w-screen-xl mx-auto px-6 py-3 flex items-center justify-between">
+        
+        {/* LOGO */}
+        <a
+          href="#hero"
+          aria-label="Athrva Flute Home"
+          className="flex items-center"
+        >
+          <img
+            src={Logo}
+            alt="Athrva Flute Logo"
+            className="
+              max-h-[64px]
+              md:max-h-[70px]
+              lg:max-h-[76px]
+              w-auto
+              object-contain
+              contrast-125
+              brightness-110
+              select-none
+            "
+            draggable={false}
+          />
         </a>
 
-        {/* Desktop Nav */}
-        <nav
-          className="hidden md:flex items-center space-x-8"
-          role="navigation"
-          aria-label="Primary"
-        >
+        {/* DESKTOP NAV */}
+        <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-white hover:text-yellow-400 transition-colors duration-200 font-medium"
+              className="text-white font-medium tracking-wide hover:text-yellow-400 transition-colors"
             >
               {link.label}
             </a>
           ))}
         </nav>
 
-        {/* Mobile Hamburger */}
-        <div className="md:hidden">
-          <button
-            onClick={() => setIsOpen((s) => !s)}
-            className="text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-400"
-            aria-expanded={isOpen}
-            aria-controls="mobile-nav"
-            aria-label={isOpen ? "Close menu" : "Open menu"}
+        {/* MOBILE BUTTON */}
+        <button
+          onClick={() => setIsOpen((v) => !v)}
+          className="md:hidden text-white p-2 focus:outline-none"
+          aria-label="Toggle Menu"
+        >
+          <svg
+            className="w-7 h-7"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              {isOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
-          </button>
-        </div>
+            {isOpen ? (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            ) : (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            )}
+          </svg>
+        </button>
       </div>
 
-      {/* Mobile Nav — slides down */}
+      {/* MOBILE MENU */}
       <div
-        id="mobile-nav"
-        className={`md:hidden w-full bg-black/90 backdrop-blur-md absolute left-0 z-40 transition-transform duration-300 origin-top ${
-          isOpen ? "transform scale-y-100" : "transform scale-y-0 pointer-events-none"
-        }`}
-        style={{ transformOrigin: "top" }}
-        aria-hidden={!isOpen}
+        className={`md:hidden overflow-hidden transition-all duration-300 ${
+          isOpen ? "max-h-[400px]" : "max-h-0"
+        } bg-black/90 backdrop-blur-md`}
       >
-        <div className="max-w-screen-xl mx-auto px-6 py-6 flex flex-col items-center space-y-4">
+        <div className="flex flex-col items-center py-6 space-y-4">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="text-white hover:text-yellow-400 transition-colors duration-200 w-full text-center py-2 rounded"
+              className="text-white text-lg hover:text-yellow-400 transition"
             >
               {link.label}
             </a>
           ))}
-          <button
-            onClick={() => setIsOpen(false)}
-            className="mt-2 px-6 py-2 bg-yellow-500 text-black font-semibold rounded-full hover:bg-yellow-400 transition"
-          >
-            Close
-          </button>
         </div>
       </div>
     </header>
