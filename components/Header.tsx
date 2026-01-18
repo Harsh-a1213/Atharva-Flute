@@ -66,7 +66,7 @@ const Header: React.FC = () => {
               href={link.href}
               className="
                 relative
-                text-[15px]
+                text-[18px]
                 font-semibold
                 tracking-wide
                 text-white
