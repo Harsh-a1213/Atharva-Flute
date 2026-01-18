@@ -1,51 +1,74 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
   <head>
+    <!-- Basic -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Atharva Flute Academy</title>
 
+    <title>Atharva Flute Academy | Learn Flute, Music & Live Performances</title>
+
+    <meta
+      name="description"
+      content="Atharva Flute Academy offers online and offline flute classes, live performances, and personalized music training. Learn from professional flautist Atharva Nerikar."
+    />
+
+    <meta
+      name="keywords"
+      content="Flute Classes, Bansuri Classes, Indian Classical Music, Online Music Classes, Atharva Nerikar, Flute Academy, Live Flute Performance"
+    />
+
+    <meta name="author" content="Atharva Sanjay Nerikar" />
+
+    <!-- Theme -->
+    <meta name="theme-color" content="#1a1a1a" />
+
+    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <script src="https://cdn.tailwindcss.com"></script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Open Graph (WhatsApp / Facebook / Instagram) -->
+    <meta property="og:title" content="Atharva Flute Academy" />
+    <meta
+      property="og:description"
+      content="Learn flute and instrumental music from Atharva Nerikar. Online & offline classes and live performances."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://atharvaflute.com" />
+    <meta property="og:image" content="/og-image.jpg" />
 
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              'sans': ['Poppins', 'sans-serif'],
-              'serif': ['Playfair Display', 'serif'],
-            },
-            colors: {
-              'brand-gold': '#D4AF37',
-              'brand-dark': '#1a1a1a',
-              'brand-light': '#f5f5f5',
-              'brand-gray': '#2a2a2a',
-            }
-          }
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Atharva Flute Academy" />
+    <meta
+      name="twitter:description"
+      content="Online & offline flute classes, music education, and live performances."
+    />
+    <meta name="twitter:image" content="/og-image.jpg" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- App Styles -->
+    <link rel="stylesheet" href="/index.css" />
+
+    <!-- Import Map -->
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@^19.1.0",
+          "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+          "@google/genai": "https://esm.sh/@google/genai@^1.9.0"
         }
       }
     </script>
-
-    <link rel="stylesheet" href="/index.css" />
-
-    <script type="importmap">
-    {
-      "imports": {
-        "react/": "https://esm.sh/react@^19.1.0/",
-        "react": "https://esm.sh/react@^19.1.0",
-        "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
-        "@google/genai": "https://esm.sh/@google/genai@^1.9.0"
-      }
-    }
-    </script>
   </head>
 
-  <body class="bg-brand-dark text-brand-light font-sans">
+  <body class="bg-brand-dark text-brand-light font-sans antialiased">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>

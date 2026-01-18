@@ -67,16 +67,17 @@ const Header: React.FC = () => {
               className="
                 relative
                 text-[18px]
-                font-semibold
+                font-medium
                 tracking-wide
                 text-white
                 transition-colors duration-300
                 hover:text-yellow-400
-                after:absolute after:left-0 after:-bottom-1
+                after:absolute after:left-1/2 after:-bottom-1
                 after:h-[2px] after:w-0
                 after:bg-yellow-400
                 after:transition-all after:duration-300
-                hover:after:w-full
+                after:-translate-x-1/2
+                hover:after:w-6
               "
             >
               {link.label}
@@ -131,7 +132,7 @@ const Header: React.FC = () => {
                 w-full text-center
                 py-3
                 text-lg
-                font-semibold
+                font-medium
                 tracking-wide
                 text-white
                 hover:text-yellow-400

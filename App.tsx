@@ -53,34 +53,71 @@ const App: React.FC = () => {
     { id: 4, name: 'Tabla / Drum', imageUrl: tabalaImage, description: '...' },
   ];
 
-  return (
-    <div className="bg-brand-dark font-sans text-white">
-      <Header />
-      <main>
-        <Hero
-          openBookingModal={openBookingModal}
-          openEnrollModal={openEnrollModal}
-          openPerformanceModal={openPerformanceModal}   // <-- ADDED
-        />
+return (
+  <div className="bg-brand-dark font-sans text-white">
+    <Header />
+
+    <main>
+      {/* HERO (no extra padding) */}
+      <Hero
+        openBookingModal={openBookingModal}
+        openEnrollModal={openEnrollModal}
+        openPerformanceModal={openPerformanceModal}
+      />
+
+      {/* ABOUT */}
+      <section className="py-24 md:py-32">
         <About />
+      </section>
+
+      {/* CLASSES */}
+      <section className="py-24 md:py-32">
         <Classes classes={classesData} />
+      </section>
+
+      {/* INSTRUCTORS */}
+      <section className="py-24 md:py-32">
         <Instructors instructors={instructorData} />
+      </section>
+
+      {/* PERFORMANCES */}
+      <section className="py-24 md:py-32">
         <Performances openPerformanceModal={openPerformanceModal} />
+      </section>
+
+      {/* VIDEO HIGHLIGHTS */}
+      <section className="py-24 md:py-32">
         <VideoSlideshow />
+      </section>
+
+      {/* FAQ */}
+      <section className="py-24 md:py-32">
         <FAQSection />
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section className="py-24 md:py-32">
         <TestimonialSection />
+      </section>
+
+      {/* ENQUIRY */}
+      <section className="py-24 md:py-32">
         <EnquiryForm />
-        
-        <BookDemoModal isOpen={isBookingModalOpen} onClose={closeBookingModal} />
-        <EnrollModal isOpen={isEnrollModalOpen} onClose={closeEnrollModal} />
-        <BookPerformanceModal 
-          isOpen={isPerformanceModalOpen}
-          onClose={closePerformanceModal}
-        /> 
-      </main>
-      <Footer />
-    </div>
-  );
+      </section>
+
+      {/* MODALS */}
+      <BookDemoModal isOpen={isBookingModalOpen} onClose={closeBookingModal} />
+      <EnrollModal isOpen={isEnrollModalOpen} onClose={closeEnrollModal} />
+      <BookPerformanceModal
+        isOpen={isPerformanceModalOpen}
+        onClose={closePerformanceModal}
+      />
+    </main>
+
+    <Footer />
+  </div>
+);
+
 };
 
 export default App;
