@@ -1,6 +1,5 @@
-// components/Header.tsx
 import React, { useEffect, useState } from "react";
-import Logo from "./assets/Logo.png";
+import Logo from "./assets/Logo.png"; // exact, case-sensitive path
 
 const navLinks = [
   { href: "#about", label: "About" },
@@ -14,13 +13,7 @@ const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
+  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => {
@@ -28,116 +21,124 @@ const Header: React.FC = () => {
     };
   }, [isOpen]);
 
+  // Close mobile menu on Escape
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // Sticky header background on scroll
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Close mobile menu when resizing to desktop
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth >= 768) setIsOpen(false);
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-black/60 backdrop-blur-lg shadow-md"
-          : "bg-black/30"
+          ? "backdrop-blur-lg bg-black/60 shadow-md"
+          : "bg-black/20"
       }`}
+      role="banner"
     >
-      {/* HEADER BAR */}
-      <div className="max-w-screen-xl mx-auto px-4 py-2 md:px-6 md:py-3 flex items-center justify-between">
-        
-        {/* LOGO */}
-        <a href="#hero" aria-label="Athrva Flute Home" className="flex items-center">
+      <div className="max-w-screen-xl mx-auto px-4 h-20 flex items-center justify-between">
+        {/* Logo */}
+        <a
+          href="#hero"
+          className="h-full flex items-center"
+          aria-label="Go to top"
+        >
           <img
             src={Logo}
-            alt="Athrva Flute Logo"
-            className="
-              max-h-[52px]
-              md:max-h-[70px]
-              lg:max-h-[76px]
-              w-auto
-              object-contain
-              contrast-125
-              brightness-110
-              select-none
-            "
-            draggable={false}
+            alt="Atharva Flute Logo"
+            className="h-14 md:h-16 lg:h-20 w-auto object-contain"
+            loading="eager"
+            decoding="async"
           />
         </a>
 
-        {/* DESKTOP NAV */}
-        <nav className="hidden md:flex items-center gap-10">
+        {/* Desktop Navigation */}
+        <nav
+          className="hidden md:flex items-center space-x-8 text-[18px]"
+          role="navigation"
+          aria-label="Primary"
+        >
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="
-                relative
-                text-[18px]
-                font-medium
-                tracking-wide
-                text-white
-                transition-colors duration-300
-                hover:text-yellow-400
-                after:absolute after:left-1/2 after:-bottom-1
-                after:h-[2px] after:w-0
-                after:bg-yellow-400
-                after:transition-all after:duration-300
-                after:-translate-x-1/2
-                hover:after:w-6
-              "
+              className="text-white font-medium hover:text-brand-gold transition-colors duration-200"
             >
               {link.label}
             </a>
           ))}
         </nav>
 
-        {/* MOBILE MENU BUTTON */}
-        <button
-          onClick={() => setIsOpen((v) => !v)}
-          className="md:hidden text-white p-2 focus:outline-none"
-          aria-label="Toggle Menu"
-        >
-          <svg
-            className="w-7 h-7"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+        {/* Mobile Hamburger */}
+        <div className="md:hidden">
+          <button
+            onClick={() => setIsOpen((s) => !s)}
+            className="text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-brand-gold"
+            aria-expanded={isOpen}
+            aria-controls="mobile-nav"
+            aria-label={isOpen ? "Close menu" : "Open menu"}
           >
-            {isOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            )}
-          </svg>
-        </button>
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              {isOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
 
-      {/* MOBILE NAV */}
+      {/* Mobile Navigation */}
       <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ease-out ${
-          isOpen ? "max-h-[420px] opacity-100" : "max-h-0 opacity-0"
-        } bg-black/95 backdrop-blur-lg`}
+        id="mobile-nav"
+        className={`md:hidden w-full bg-black/90 backdrop-blur-md absolute left-0 z-40 transition-transform duration-300 origin-top ${
+          isOpen ? "scale-y-100" : "scale-y-0 pointer-events-none"
+        }`}
+        style={{ transformOrigin: "top" }}
       >
-        <div className="flex flex-col items-center py-6">
+        <div className="max-w-screen-xl mx-auto px-6 py-6 flex flex-col items-center space-y-4">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="
-                w-full text-center
-                py-3
-                text-lg
-                font-medium
-                tracking-wide
-                text-white
-                hover:text-yellow-400
-                transition
-              "
+              className="text-white text-lg hover:text-brand-gold transition-colors duration-200 w-full text-center py-2"
             >
               {link.label}
             </a>

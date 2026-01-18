@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const inputClass =
-  "w-full rounded-xl px-4 py-3 bg-gray-50 text-gray-900 placeholder-gray-500 border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400/60 focus:border-yellow-400 transition";
+  "w-full border border-gray-300 bg-white text-gray-800 placeholder-gray-500 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400";
 
 const EnquiryForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -43,7 +43,9 @@ const EnquiryForm: React.FC = () => {
     };
 
     if (!payload.name || !payload.contact) {
-      setError("Please provide your name and a phone number or email.");
+      setError(
+        "Please provide your name and at least a phone number or email."
+      );
       setLoading(false);
       return;
     }
@@ -79,117 +81,121 @@ const EnquiryForm: React.FC = () => {
     }
   };
 
+  if (submitted) {
+    return (
+      <section id="contact" className="py-20 bg-[var(--brand-dark)]">
+        <div className="container mx-auto px-6 text-center">
+          <h2 className="text-3xl font-serif font-bold text-yellow-400 mb-2">
+            Thank you!
+          </h2>
+          <p className="text-gray-300">
+            Your message has been sent. We will get back to you shortly.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section
-      id="contact"
-      className="py-24 md:py-32 bg-white/5 text-white"
-    >
+    <section id="contact" className="py-20 bg-[var(--brand-dark)]">
       <div className="container mx-auto px-6 max-w-xl">
-        {submitted ? (
-          <div className="text-center py-12">
-            <h2 className="text-3xl font-serif font-semibold text-brand-gold mb-3">
-              Thank you!
-            </h2>
-            <p className="text-gray-300">
-              Your message has been sent. We’ll get back to you shortly.
-            </p>
+        <h2 className="text-4xl font-serif font-bold text-center text-brand-gold mb-6">
+          Enroll, Book & Inquire
+        </h2>
+
+        <p className="text-gray-300 text-center mb-8">
+          Ready to start your musical journey? Fill the form below.
+        </p>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <label className="block">
+            <span className="sr-only">Full name</span>
+            <input
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Full name"
+              className={inputClass}
+              required
+              disabled={loading}
+            />
+          </label>
+
+          <label className="block">
+            <span className="sr-only">Email</span>
+            <input
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email address"
+              className={inputClass}
+              disabled={loading}
+            />
+          </label>
+
+          <label className="block">
+            <span className="sr-only">Phone</span>
+            <input
+              name="phone"
+              type="tel"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="Phone (optional)"
+              className={inputClass}
+              disabled={loading}
+            />
+          </label>
+
+          <label className="block">
+            <span className="sr-only">Message</span>
+            <textarea
+              name="message"
+              rows={5}
+              value={formData.message}
+              onChange={handleChange}
+              placeholder="Your message"
+              className={inputClass + " resize-none"}
+              required
+              disabled={loading}
+            />
+          </label>
+
+          <label className="block">
+            <span className="sr-only">Enquiry Type (optional)</span>
+            <select
+              name="enquiryType"
+              value={formData.enquiryType}
+              onChange={handleChange}
+              className={inputClass}
+              disabled={loading}
+            >
+              <option value="">Select enquiry type (optional)</option>
+              <option value="Demo Class Scheduling">Book Free Trial</option>
+              <option value="Class Enquiry">Enroll in Class</option>
+              <option value="Performance/Concert Enquiry">
+                Book Show / Performance
+              </option>
+              <option value="Booking">Other Enquiry</option>
+            </select>
+          </label>
+
+          {error && (
+            <div className="text-sm text-red-600 bg-red-50 p-2 rounded">
+              {error}
+            </div>
+          )}
+
+          <div className="text-center">
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold py-3 px-8 rounded-full shadow"
+            >
+              {loading ? "Sending..." : "Send Message"}
+            </button>
           </div>
-        ) : (
-          <>
-            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-center text-brand-gold mb-4">
-              Enroll, Book & Inquire
-            </h2>
-            <p className="text-gray-300 text-center mb-10 text-lg">
-              Ready to begin your musical journey? Share a few details with us.
-            </p>
-
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <input
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Full Name"
-                className={inputClass}
-                required
-                disabled={loading}
-              />
-
-              <input
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Email Address (optional)"
-                className={inputClass}
-                disabled={loading}
-              />
-
-              <input
-                name="phone"
-                type="tel"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="Phone / WhatsApp (optional)"
-                className={inputClass}
-                disabled={loading}
-              />
-
-              <textarea
-                name="message"
-                rows={5}
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="Tell us what you're looking for..."
-                className={inputClass + " resize-none"}
-                required
-                disabled={loading}
-              />
-
-              <select
-                name="enquiryType"
-                value={formData.enquiryType}
-                onChange={handleChange}
-                className={inputClass}
-                disabled={loading}
-              >
-                <option value="">Select enquiry type (optional)</option>
-                <option value="Demo Class Scheduling">Book Free Trial</option>
-                <option value="Class Enquiry">Enroll in Class</option>
-                <option value="Performance/Concert Enquiry">
-                  Book Show / Performance
-                </option>
-                <option value="Booking">Other Enquiry</option>
-              </select>
-
-              {error && (
-                <div className="text-sm text-red-600 bg-red-50 p-3 rounded-lg">
-                  {error}
-                </div>
-              )}
-
-              <div className="text-center pt-4">
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="
-                    bg-gradient-to-r from-yellow-400 to-yellow-500
-                    text-gray-900
-                    font-semibold
-                    py-3 px-10
-                    rounded-full
-                    shadow-md
-                    hover:shadow-lg
-                    hover:-translate-y-0.5
-                    transition
-                    disabled:opacity-60
-                  "
-                >
-                  {loading ? "Sending..." : "Send Message"}
-                </button>
-              </div>
-            </form>
-          </>
-        )}
+        </form>
       </div>
     </section>
   );
