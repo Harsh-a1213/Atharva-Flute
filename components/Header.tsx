@@ -56,14 +56,28 @@ const Header: React.FC = () => {
       }`}
       role="banner"
     >
-      <div className="max-w-screen-xl mx-auto px-4 h-20 flex items-center justify-between">
+      <div className="max-w-screen-xl mx-auto px-4 min-h-[88px] flex items-center justify-between">
+
         {/* Logo */}
-        <a href="#hero" className="h-full flex items-center" aria-label="Go to top / hero">
+          <a
+            href="#hero"
+            className="hidden md:flex items-center space-x-8 translate-y-[1px]"
+            aria-label="Go to top / hero"
+          >
           <picture>
             <img
               src={Logo}
               alt="Atharva Flute Logo"
-              className="h-14 md:h-16 lg:h-20 w-auto object-contain contrast-125 brightness-110"
+              className="
+                max-h-[56px] 
+                md:max-h-[64px] 
+                lg:max-h-[68px]
+                w-auto 
+                object-contain 
+                contrast-125 
+                brightness-110
+                translate-y-[1px]
+              "
               width={240}
               height={80}
               loading="eager"
