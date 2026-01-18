@@ -102,12 +102,14 @@ const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70">
       <div className="bg-white rounded-3xl max-w-xl w-full p-8 shadow-2xl relative text-gray-900">
+
+        {/* Close Button */}
         <button
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-4 right-4 text-2xl text-gray-600 hover:text-gray-800"
+          className="absolute top-4 right-4 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-700 hover:bg-gray-200"
         >
           &times;
         </button>
@@ -118,16 +120,17 @@ const BookPerformanceModal: React.FC<Props> = ({ isOpen, onClose }) => {
               🎉 Booking Submitted
             </h3>
             <p className="mt-3 text-gray-700">
-              We’ll contact you soon to discuss performance details.
+              We’ll contact you shortly with performance details.
             </p>
           </div>
         ) : (
           <>
+            {/* Header */}
             <h3 className="text-3xl font-serif font-bold text-center mb-1">
               Book a Performance
             </h3>
             <p className="text-center text-gray-500 mb-6">
-              Share your event details and we’ll get in touch.
+              Let soulful live music elevate your special event.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">

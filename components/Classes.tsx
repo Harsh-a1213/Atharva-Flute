@@ -12,13 +12,14 @@ const ClassCard: React.FC<ClassCardProps> = ({ cls }) => (
       alt={cls.name}
       className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
     />
-    <div className="p-6">
-      <h3 className="text-2xl font-serif font-bold text-brand-gold mb-2">
+
+    <div className="p-6 text-center">
+      <h3 className="text-2xl font-serif font-bold text-brand-gold">
         {cls.name}
       </h3>
-      <p className="text-brand-light text-sm leading-relaxed min-h-[4rem]">
-        {cls.description}
-      </p>
+
+      {/* Optional subtle divider for elegance */}
+      <div className="mx-auto mt-3 h-[2px] w-12 bg-brand-gold/50 rounded-full"></div>
     </div>
   </div>
 );
