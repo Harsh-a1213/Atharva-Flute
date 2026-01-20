@@ -3,7 +3,8 @@ export interface InstrumentClass {
   id: number;
   name: string;
   imageUrl: string;
-  description: string;
+  description?: string;
+  link: string; 
 }
 
 export interface Instructor {
