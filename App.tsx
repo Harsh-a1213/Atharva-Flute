@@ -14,7 +14,6 @@ import EnquiryForm from './components/EnquiryForm';
 import BookDemoModal from './components/BookDemoModal';
 import EnrollModal from './components/EnrollModal';
 import BookPerformanceModal from './components/BookPerformanceModal';
-import Footer from './components/Footer';
 
 import instructorImage from "./components/assets/hero.jpg";
 import fluteImage from "./components/assets/flute.jpeg";
@@ -82,7 +81,6 @@ const App: React.FC = () => {
         />
       </main>
 
-      <Footer />
     </div>
   );
 };
