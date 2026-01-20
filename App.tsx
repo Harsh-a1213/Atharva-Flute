@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -9,9 +10,10 @@ import VideoSlideshow from './components/VideoSlideshow';
 import FAQSection from './components/FAQSection';
 import TestimonialSection from './components/TestimonialSection';
 import EnquiryForm from './components/EnquiryForm';
+
 import BookDemoModal from './components/BookDemoModal';
 import EnrollModal from './components/EnrollModal';
-import BookPerformanceModal from './components/BookPerformanceModal';  // <-- ADDED
+import BookPerformanceModal from './components/BookPerformanceModal';
 import Footer from './components/Footer';
 
 import instructorImage from "./components/assets/hero.jpg";
@@ -25,16 +27,7 @@ import { Instructor, InstrumentClass } from './types';
 const App: React.FC = () => {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false);
-  const [isPerformanceModalOpen, setIsPerformanceModalOpen] = useState(false); // <-- ADDED
-
-  const openBookingModal = () => setIsBookingModalOpen(true);
-  const closeBookingModal = () => setIsBookingModalOpen(false);
-
-  const openEnrollModal = () => setIsEnrollModalOpen(true);
-  const closeEnrollModal = () => setIsEnrollModalOpen(false);
-
-  const openPerformanceModal = () => setIsPerformanceModalOpen(true); // <-- ADDED
-  const closePerformanceModal = () => setIsPerformanceModalOpen(false); // <-- ADDED
+  const [isPerformanceModalOpen, setIsPerformanceModalOpen] = useState(false);
 
   const instructorData: Instructor[] = [
     {
@@ -56,28 +49,39 @@ const App: React.FC = () => {
   return (
     <div className="bg-brand-dark font-sans text-white">
       <Header />
+
       <main>
         <Hero
-          openBookingModal={openBookingModal}
-          openEnrollModal={openEnrollModal}
-          openPerformanceModal={openPerformanceModal}   // <-- ADDED
+          openBookingModal={() => setIsBookingModalOpen(true)}
+          openEnrollModal={() => setIsEnrollModalOpen(true)}
+          openPerformanceModal={() => setIsPerformanceModalOpen(true)}
         />
+
         <About />
         <Classes classes={classesData} />
         <Instructors instructors={instructorData} />
-        <Performances openPerformanceModal={openPerformanceModal} />
+        <Performances openPerformanceModal={() => setIsPerformanceModalOpen(true)} />
         <VideoSlideshow />
         <FAQSection />
         <TestimonialSection />
         <EnquiryForm />
-        
-        <BookDemoModal isOpen={isBookingModalOpen} onClose={closeBookingModal} />
-        <EnrollModal isOpen={isEnrollModalOpen} onClose={closeEnrollModal} />
-        <BookPerformanceModal 
+
+        <BookDemoModal
+          isOpen={isBookingModalOpen}
+          onClose={() => setIsBookingModalOpen(false)}
+        />
+
+        <EnrollModal
+          isOpen={isEnrollModalOpen}
+          onClose={() => setIsEnrollModalOpen(false)}
+        />
+
+        <BookPerformanceModal
           isOpen={isPerformanceModalOpen}
-          onClose={closePerformanceModal}
-        /> 
+          onClose={() => setIsPerformanceModalOpen(false)}
+        />
       </main>
+
       <Footer />
     </div>
   );
