@@ -32,7 +32,7 @@ const testimonials: Testimonial[] = [
   {
     text:
       "These classes go beyond technique — they’re a journey into the soul of Hindustani classical music. Every session deepens my skills and appreciation for our art.",
-    name: "Student",
+    name: "Adesh Lodha",
     location: "India",
     level: "Intermediate",
   },

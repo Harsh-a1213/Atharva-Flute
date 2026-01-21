@@ -1,11 +1,11 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import heroImage from './assets/Atharva.jpg';
+import React from "react";
+import { motion } from "framer-motion";
+import heroImage from "./assets/Atharva.jpg";
 
 interface HeroProps {
   openBookingModal: () => void;
   openEnrollModal: () => void;
-  openPerformanceModal?: () => void; // kept ONLY to satisfy App.tsx
+  openPerformanceModal?: () => void;
 }
 
 const Hero: React.FC<HeroProps> = ({
@@ -15,54 +15,102 @@ const Hero: React.FC<HeroProps> = ({
   return (
     <section
       id="hero"
-      className="relative min-h-[85vh] lg:min-h-[750px] flex items-center overflow-hidden"
+      className="
+        relative 
+        min-h-[90vh] 
+        sm:min-h-screen
+        flex items-center 
+        overflow-hidden
+      "
     >
       {/* Background Image */}
       <img
         src={heroImage}
         alt="Bansuri flute performance by Atharva"
         className="
-          absolute inset-0 w-full h-full object-cover
-          object-[50%_30%] md:object-[50%_20%]
+          absolute inset-0 
+          w-full h-full 
+          object-cover
+          object-[50%_25%] sm:object-center
           z-0
         "
       />
 
-      {/* Overlay */}
+      {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/65 z-10" />
 
       {/* Content */}
       <motion.div
-        className="relative z-20 px-6 md:px-16 max-w-5xl text-left"
+        className="
+          relative z-20 
+          px-6 sm:px-10 md:px-16
+          max-w-5xl
+          text-left
+        "
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, ease: 'easeOut' }}
+        transition={{ duration: 0.9, ease: "easeOut" }}
       >
         {/* Top Label */}
-        <div className="text-lg md:text-xl tracking-widest uppercase text-brand-light mb-4">
+        <div className="
+          text-sm sm:text-base md:text-lg
+          tracking-widest uppercase 
+          text-brand-light 
+          mb-4
+        ">
           Learn Flute
         </div>
 
         {/* Main Heading */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-bold leading-tight mb-6 whitespace-nowrap">
-          Experience the Soulful Essence of the Bansuri{' '}
-          
+        <h1
+          className="
+            text-3xl 
+            sm:text-4xl 
+            md:text-5xl 
+            lg:text-6xl
+            font-serif font-bold
+            leading-tight
+            mb-6
+          "
+        >
+          Experience the Soulful Essence of the Bansuri
         </h1>
 
         {/* Sub-headline */}
-        <p className="text-base md:text-xl text-brand-light max-w-2xl mb-10">
+        <p
+          className="
+            text-sm 
+            sm:text-base 
+            md:text-lg 
+            lg:text-xl
+            text-brand-light
+            max-w-2xl
+            mb-8
+          "
+        >
           Learn flute with depth, devotion, and classical tradition through
           online and offline sessions.
         </p>
 
         {/* CTAs */}
-        <div className="flex flex-col sm:flex-row gap-5 items-start">
+        <div className="
+          flex flex-col 
+          sm:flex-row 
+          gap-4 sm:gap-5
+          items-start
+        ">
           <button
             onClick={openBookingModal}
             className="
-              bg-brand-gold text-brand-dark font-bold
-              py-4 px-10 rounded-full text-lg
-              hover:scale-105 transition-transform
+              w-full sm:w-auto
+              bg-brand-gold text-brand-dark 
+              font-bold
+              py-3 sm:py-4 
+              px-8 sm:px-10 
+              rounded-full 
+              text-base sm:text-lg
+              hover:scale-105 
+              transition-transform
             "
           >
             Book a Free Trial
@@ -71,8 +119,14 @@ const Hero: React.FC<HeroProps> = ({
           <button
             onClick={openEnrollModal}
             className="
-              border-2 border-brand-gold text-brand-gold font-bold
-              py-4 px-10 rounded-full text-lg
+              w-full sm:w-auto
+              border-2 border-brand-gold 
+              text-brand-gold 
+              font-bold
+              py-3 sm:py-4 
+              px-8 sm:px-10 
+              rounded-full 
+              text-base sm:text-lg
               hover:bg-brand-gold hover:text-brand-dark
               transition-colors
             "
