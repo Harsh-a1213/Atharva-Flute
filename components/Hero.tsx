@@ -5,7 +5,6 @@ import heroImage from "./assets/Atharva.jpg";
 interface HeroProps {
   openBookingModal: () => void;
   openEnrollModal: () => void;
-  openPerformanceModal?: () => void;
 }
 
 const Hero: React.FC<HeroProps> = ({
@@ -13,128 +12,102 @@ const Hero: React.FC<HeroProps> = ({
   openEnrollModal,
 }) => {
   return (
-    <section
-      id="hero"
-      className="
-        relative 
-        min-h-[90vh] 
-        sm:min-h-screen
-        flex items-center 
-        overflow-hidden
-      "
-    >
-      {/* Background Image */}
-      <img
-        src={heroImage}
-        alt="Bansuri flute performance by Atharva"
-        className="
-          absolute inset-0 
-          w-full h-full 
-          object-cover
-          object-[50%_25%] sm:object-center
-          z-0
-        "
-      />
+    <section className="w-full overflow-hidden">
 
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/65 z-10" />
-
-      {/* Content */}
-      <motion.div
-        className="
-          relative z-20 
-          px-6 sm:px-10 md:px-16
-          max-w-5xl
-          text-left
-        "
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, ease: "easeOut" }}
-      >
-        {/* Top Label */}
-        <div className="
-          text-sm sm:text-base md:text-lg
-          tracking-widest uppercase 
-          text-brand-light 
-          mb-4
-        ">
-          Learn Flute
-        </div>
-
-        {/* Main Heading */}
-        <h1
+      {/* IMAGE BLOCK */}
+      <div className="relative w-full h-[60vh] sm:h-screen overflow-hidden">
+        <img
+          src={heroImage}
+          alt="Bansuri flute performance by Atharva"
           className="
-            text-3xl 
-            sm:text-4xl 
-            md:text-5xl 
-            lg:text-6xl
-            font-serif font-bold
-            leading-tight
-            mb-6
+            w-full h-full
+            object-contain sm:object-cover
+            bg-black
           "
+        />
+
+        {/* Overlay only on desktop */}
+        <div className="hidden sm:block absolute inset-0 bg-black/60" />
+
+        {/* TEXT OVER IMAGE (DESKTOP ONLY) */}
+        <motion.div
+          className="
+            hidden sm:block
+            absolute inset-0
+            flex items-center
+            px-16
+            z-10
+            text-white
+            max-w-5xl
+          "
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
         >
+          <div>
+            <p className="tracking-widest uppercase text-brand-light mb-4">
+              Learn Flute
+            </p>
+
+            <h1 className="text-6xl font-serif font-bold mb-6">
+              Experience the Soulful Essence of the Bansuri
+            </h1>
+
+            <p className="text-xl max-w-2xl mb-8">
+              Learn flute with depth, devotion, and classical tradition through
+              online and offline sessions.
+            </p>
+
+            <div className="flex gap-5">
+              <button
+                onClick={openBookingModal}
+                className="bg-brand-gold text-brand-dark font-bold py-4 px-10 rounded-full"
+              >
+                Book a Free Trial
+              </button>
+
+              <button
+                onClick={openEnrollModal}
+                className="border-2 border-brand-gold text-brand-gold font-bold py-4 px-10 rounded-full"
+              >
+                Enroll Now
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* TEXT BELOW IMAGE (MOBILE ONLY) */}
+      <div className="sm:hidden px-6 py-8 bg-brand-dark text-white">
+        <p className="tracking-widest uppercase text-brand-light mb-2">
+          Learn Flute
+        </p>
+
+        <h1 className="text-3xl font-serif font-bold mb-4">
           Experience the Soulful Essence of the Bansuri
         </h1>
 
-        {/* Sub-headline */}
-        <p
-          className="
-            text-sm 
-            sm:text-base 
-            md:text-lg 
-            lg:text-xl
-            text-brand-light
-            max-w-2xl
-            mb-8
-          "
-        >
+        <p className="text-sm mb-6">
           Learn flute with depth, devotion, and classical tradition through
           online and offline sessions.
         </p>
 
-        {/* CTAs */}
-        <div className="
-          flex flex-col 
-          sm:flex-row 
-          gap-4 sm:gap-5
-          items-start
-        ">
+        <div className="flex flex-col gap-4">
           <button
             onClick={openBookingModal}
-            className="
-              w-full sm:w-auto
-              bg-brand-gold text-brand-dark 
-              font-bold
-              py-3 sm:py-4 
-              px-8 sm:px-10 
-              rounded-full 
-              text-base sm:text-lg
-              hover:scale-105 
-              transition-transform
-            "
+            className="bg-brand-gold text-brand-dark font-semibold py-3 rounded-full"
           >
             Book a Free Trial
           </button>
 
           <button
             onClick={openEnrollModal}
-            className="
-              w-full sm:w-auto
-              border-2 border-brand-gold 
-              text-brand-gold 
-              font-bold
-              py-3 sm:py-4 
-              px-8 sm:px-10 
-              rounded-full 
-              text-base sm:text-lg
-              hover:bg-brand-gold hover:text-brand-dark
-              transition-colors
-            "
+            className="border-2 border-brand-gold text-brand-gold font-semibold py-3 rounded-full"
           >
             Enroll Now
           </button>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };
