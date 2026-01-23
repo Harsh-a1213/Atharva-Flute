@@ -12,140 +12,42 @@ const Hero: React.FC<HeroProps> = ({
   openEnrollModal,
 }) => {
   return (
-    <section className="w-full overflow-x-hidden">
+    <section className="relative min-h-[80vh] sm:min-h-screen overflow-hidden">
+      <img
+        src={heroImage}
+        alt="Atharva Flute"
+        className="absolute inset-0 w-full h-full object-cover object-[50%_25%]"
+      />
 
-      {/* ================= IMAGE BLOCK ================= */}
-      <div className="relative w-full h-[50vh] sm:h-screen overflow-hidden">
+      <div className="absolute inset-0 bg-black/65" />
 
-        {/* Background Image */}
-        <img
-          src={heroImage}
-          alt="Atharva Nerikar performing Bansuri"
-          className="
-            w-full h-full
-            object-contain sm:object-cover
-            bg-black
-          "
-        />
-
-        {/* Desktop Gradient Overlay */}
-        <div
-          className="
-            hidden sm:block
-            absolute inset-0
-            bg-gradient-to-r
-            from-black/80
-            via-black/50
-            to-transparent
-            z-10
-          "
-        />
-
-        {/* Desktop Text (LEFT-ANCHORED) */}
-        <motion.div
-          className="
-            hidden sm:flex
-            absolute inset-0
-            items-center
-            justify-start
-            px-16
-            z-20
-            text-white
-          "
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          <div className="max-w-xl">
-            <p className="tracking-widest uppercase text-brand-light mb-4">
-              Learn Flute
-            </p>
-
-            <h1 className="text-6xl font-serif font-bold leading-tight mb-6">
-              Experience the Soulful Essence of the Bansuri
-            </h1>
-
-            <p className="text-xl mb-8">
-              Learn flute with depth, devotion, and classical tradition through
-              online and offline sessions.
-            </p>
-
-            <div className="flex gap-5">
-              <button
-                onClick={openBookingModal}
-                className="
-                  bg-brand-gold text-brand-dark
-                  font-bold py-4 px-10 rounded-full
-                  hover:scale-105 transition-transform
-                "
-              >
-                Book a Free Trial
-              </button>
-
-              <button
-                onClick={openEnrollModal}
-                className="
-                  border-2 border-brand-gold
-                  text-brand-gold font-bold
-                  py-4 px-10 rounded-full
-                  hover:bg-brand-gold hover:text-brand-dark
-                  transition-colors
-                "
-              >
-                Enroll Now
-              </button>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Mobile bottom fade */}
-        <div className="sm:hidden absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-b from-transparent to-brand-dark" />
-      </div>
-
-      {/* ================= MOBILE TEXT ================= */}
       <motion.div
-        className="
-          sm:hidden
-          px-6 pt-4 pb-10
-          -mt-6
-          bg-brand-dark
-          text-white
-        "
-        initial={{ opacity: 0, y: 20 }}
+        className="relative z-10 px-5 sm:px-10 max-w-xl sm:max-w-5xl mx-auto"
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.8 }}
       >
-        <p className="tracking-widest uppercase text-brand-light mb-2">
-          Learn Flute
-        </p>
+        <p className="text-xs tracking-widest uppercase mb-3">Learn Flute</p>
 
-        <h1 className="text-3xl font-serif font-bold leading-snug mb-4">
+        <h1 className="text-3xl sm:text-5xl font-serif font-bold leading-tight mb-4">
           Experience the Soulful Essence of the Bansuri
         </h1>
 
-        <p className="text-sm mb-6">
-          Learn flute with depth, devotion, and classical tradition through
-          online and offline sessions.
+        <p className="text-sm sm:text-lg text-gray-300 mb-6">
+          Learn flute with devotion, depth and classical tradition.
         </p>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col sm:flex-row gap-3">
           <button
             onClick={openBookingModal}
-            className="
-              bg-brand-gold text-brand-dark
-              font-semibold py-3 rounded-full
-            "
+            className="bg-brand-gold text-brand-dark py-3 px-8 rounded-full"
           >
             Book a Free Trial
           </button>
 
           <button
             onClick={openEnrollModal}
-            className="
-              border-2 border-brand-gold
-              text-brand-gold font-semibold
-              py-3 rounded-full
-            "
+            className="border-2 border-brand-gold text-brand-gold py-3 px-8 rounded-full"
           >
             Enroll Now
           </button>

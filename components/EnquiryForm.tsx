@@ -70,52 +70,40 @@ const EnquiryForm: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-brand-dark">
-      <div className="container mx-auto px-6 max-w-6xl">
+    <section id="contact" className="py-20 bg-brand-dark overflow-hidden">
+      <div className="w-full max-w-6xl mx-auto px-5 sm:px-8">
 
-        {/* CENTERED HEADING */}
+        {/* HEADING */}
         <h2 className="text-4xl font-serif font-bold text-brand-gold text-center mb-14">
           Contact Us
-          <span className="block w-20 h-1 bg-yellow-500 mx-auto mt-4 rounded-full"></span>
+          <span className="block w-20 h-1 bg-yellow-500 mx-auto mt-4 rounded-full" />
         </h2>
 
-        {/* GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
 
           {/* LEFT SIDE */}
-          <div className="text-white space-y-10 animate-fade-in-up">
+          <div className="text-white space-y-10">
 
             {/* PHONE */}
-            <div className="flex items-start space-x-5">
-              <IconCircle><PhoneIcon /></IconCircle>
-              <div>
-                <p className="text-lg font-semibold">Phone</p>
-                <a
-                  href="tel:+91XXXXXXXXXX"
-                  className="text-gray-300 hover:text-brand-gold transition"
-                >
-                  +91 XXXXX XXXXX
-                </a>
-              </div>
-            </div>
+            <InfoRow label="Phone" href="tel:+91XXXXXXXXXX">
+              <PhoneIcon />
+              +91 XXXXX XXXXX
+            </InfoRow>
 
             {/* EMAIL */}
-            <div className="flex items-start space-x-5">
-              <IconCircle><MailIcon /></IconCircle>
-              <div>
-                <p className="text-lg font-semibold">Email</p>
-                <a
-                  href="mailto:atharvafluteofficial@gmail.com"
-                  className="text-gray-300 hover:text-brand-gold transition break-all"
-                >
-                  atharvafluteofficial@gmail.com
-                </a>
-              </div>
-            </div>
+            <InfoRow
+              label="Email"
+              href="mailto:atharvafluteofficial@gmail.com"
+            >
+              <MailIcon />
+              atharvafluteofficial@gmail.com
+            </InfoRow>
 
             {/* ADDRESS */}
             <div className="flex items-start space-x-5">
-              <IconCircle><LocationIcon /></IconCircle>
+              <IconCircle>
+                <LocationIcon />
+              </IconCircle>
               <div>
                 <p className="text-lg font-semibold">Address</p>
                 <p className="text-gray-300">
@@ -125,11 +113,28 @@ const EnquiryForm: React.FC = () => {
               </div>
             </div>
 
-            <h3 className="text-xl font-semibold pt-2">
-              Location Map
-            </h3>
+            {/* SOCIALS */}
+            <div>
+              <p className="text-lg font-semibold mb-4">Follow Us</p>
+              <div className="flex space-x-5">
+                <SocialIcon
+                  href="https://www.instagram.com/atharvaflute/"
+                  label="Instagram"
+                >
+                  <InstagramIcon />
+                </SocialIcon>
 
-            {/* MAP – COMPACT HEIGHT */}
+                <SocialIcon
+                  href="https://www.youtube.com/channel/UCrKrzJ35W99201yGdaBqHPg"
+                  label="YouTube"
+                >
+                  <YouTubeIcon />
+                </SocialIcon>
+              </div>
+            </div>
+
+            {/* MAP */}
+            <h3 className="text-xl font-semibold pt-4">Location Map</h3>
             <div className="rounded-2xl overflow-hidden shadow-lg">
               <iframe
                 title="Atharva Flute Academy"
@@ -141,8 +146,8 @@ const EnquiryForm: React.FC = () => {
             </div>
           </div>
 
-          {/* RIGHT SIDE */}
-          <div className="bg-brand-gray rounded-3xl p-8 shadow-2xl animate-fade-in-up animation-delay-150 flex flex-col justify-between">
+          {/* RIGHT SIDE FORM */}
+          <div className="bg-brand-gray rounded-3xl p-8 shadow-2xl flex flex-col justify-between">
             <div>
               <h3 className="text-3xl font-serif font-bold text-center text-brand-gold mb-2">
                 Enroll, Book & Inquire
@@ -192,13 +197,55 @@ const EnquiryForm: React.FC = () => {
 
 export default EnquiryForm;
 
-/* ICON COMPONENTS */
+/* ---------- REUSABLE COMPONENTS ---------- */
 
 const IconCircle = ({ children }: { children: React.ReactNode }) => (
-  <div className="w-14 h-14 flex items-center justify-center rounded-full bg-gradient-to-br from-yellow-400 to-yellow-500 text-gray-900 flex-shrink-0">
+  <div className="w-14 h-14 flex items-center justify-center rounded-full bg-gradient-to-br from-yellow-400 to-yellow-500 text-gray-900 shrink-0">
     {children}
   </div>
 );
+
+const InfoRow = ({
+  label,
+  href,
+  children,
+}: {
+  label: string;
+  href: string;
+  children: React.ReactNode;
+}) => (
+  <div className="flex items-start space-x-5">
+    <IconCircle>{(children as any[])[0]}</IconCircle>
+    <div>
+      <p className="text-lg font-semibold">{label}</p>
+      <a href={href} className="text-gray-300 hover:text-brand-gold transition break-all">
+        {(children as any[])[1]}
+      </a>
+    </div>
+  </div>
+);
+
+const SocialIcon = ({
+  href,
+  label,
+  children,
+}: {
+  href: string;
+  label: string;
+  children: React.ReactNode;
+}) => (
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label={label}
+    className="hover:scale-110 transition-transform"
+  >
+    <IconCircle>{children}</IconCircle>
+  </a>
+);
+
+/* ---------- ICONS ---------- */
 
 const PhoneIcon = () => (
   <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -216,5 +263,19 @@ const LocationIcon = () => (
   <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" d="M12 11c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3z"/>
     <path strokeLinecap="round" strokeLinejoin="round" d="M12 21s8-4.5 8-11a8 8 0 10-16 0c0 6.5 8 11 8 11z"/>
+  </svg>
+);
+
+const InstagramIcon = () => (
+  <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5z"/>
+    <circle cx="12" cy="12" r="3.2"/>
+    <circle cx="17.5" cy="6.5" r="1.2"/>
+  </svg>
+);
+
+const YouTubeIcon = () => (
+  <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2 31 31 0 000 12a31 31 0 00.5 5.8 3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1A31 31 0 0024 12a31 31 0 00-.5-5.8zM9.5 15.5v-7l6 3.5-6 3.5z"/>
   </svg>
 );
