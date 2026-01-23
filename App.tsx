@@ -78,7 +78,7 @@ const App: React.FC = () => {
   ];
 
   return (
-    <div className="bg-brand-dark font-sans text-white">
+    <div className="bg-brand-dark font-sans text-white overflow-x-hidden">
       <Header />
 
       <Routes>

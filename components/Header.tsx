@@ -132,7 +132,7 @@ const Header: React.FC = () => {
         }`}
         style={{ transformOrigin: "top" }}
       >
-        <div className="max-w-screen-xl mx-auto px-6 py-6 flex flex-col items-center space-y-4">
+        <div className="max-w-full mx-auto px-6 py-6 flex flex-col items-center space-y-4">
           {navLinks.map((link) => (
             <a
               key={link.href}
