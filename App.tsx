@@ -48,7 +48,7 @@ const App: React.FC = () => {
   ];
 
   const classesData: InstrumentClass[] = [
-    { id: 1, name: "Flute (Specialty)", imageUrl: fluteImage, link: "/classes/flute" },
+    { id: 1, name: "Flute", imageUrl: fluteImage, link: "/classes/flute" },
     { id: 2, name: "Harmonium / Keyboard", imageUrl: harmoniumImage, link: "/classes/harmonium" },
     { id: 3, name: "Guitar", imageUrl: guitarImage, link: "/classes/guitar" },
     { id: 4, name: "Tabla / Drum", imageUrl: tabalaImage, link: "/classes/tabla" },

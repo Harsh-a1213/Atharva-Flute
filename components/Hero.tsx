@@ -17,51 +17,33 @@ const Hero: React.FC<HeroProps> = ({
   openEnrollModal,
 }) => {
   return (
-    <section className="relative w-full min-h-screen overflow-hidden bg-black">
-      
-      {/* IMAGE COLLAGE — NO GAPS */}
-      <div className="absolute inset-0 grid grid-cols-4 grid-rows-2 gap-0">
-        <img
-          src={img1}
-          className="col-span-1 row-span-1 w-full h-full object-cover grayscale"
-          alt=""
-        />
-        <img
-          src={img2}
-          className="col-span-2 row-span-2 w-full h-full object-cover"
-          alt=""
-        />
-        <img
-          src={img3}
-          className="col-span-1 row-span-1 w-full h-full object-cover"
-          alt=""
-        />
-        <img
-          src={img4}
-          className="col-span-1 row-span-1 w-full h-full object-cover"
-          alt=""
-        />
-        <img
-          src={img5}
-          className="col-span-1 row-span-1 w-full h-full object-cover"
-          alt=""
-        />
+    <section
+      id="hero"
+      className="relative w-full h-screen overflow-hidden bg-black"
+    >
+      {/* COLLAGE (NO GAPS, FULL HEIGHT) */}
+      <div className="absolute inset-0 grid grid-cols-4 grid-rows-2 gap-0 h-full">
+        <img src={img1} className="object-cover w-full h-full grayscale" />
+        <img src={img2} className="col-span-2 row-span-2 object-cover w-full h-full" />
+        <img src={img3} className="object-cover w-full h-full" />
+        <img src={img4} className="object-cover w-full h-full" />
+        <img src={img5} className="object-cover w-full h-full" />
       </div>
 
-      {/* DARK OVERLAY */}
+      {/* OVERLAY */}
       <div className="absolute inset-0 bg-black/55 z-10" />
 
-      {/* CONTENT — CENTER LEFT & LOWER */}
-      <div className="relative z-20 h-full flex items-center">
-        <div className="max-w-7xl mx-auto px-6 md:px-16 w-full">
+      {/* CONTENT (HEADER SAFE, ANCHORED) */}
+      <div className="absolute inset-0 z-20 pt-[80px]">
+        <div className="h-full max-w-[1100px] mx-auto px-6 md:px-12">
           <motion.div
-            className="max-w-3xl mt-24 md:mt-32"
+            className="max-w-[620px] mt-[18vh]"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: "easeOut" }}
           >
             {/* BADGE */}
-            <span className="inline-block text-xs tracking-widest uppercase text-white/80 mb-6">
+            <span className="block text-xs tracking-widest uppercase text-white/80 mb-6">
               LEARN FLUTE
             </span>
 
@@ -79,33 +61,53 @@ const Hero: React.FC<HeroProps> = ({
 
             {/* CTA BUTTONS */}
             <div className="flex flex-col sm:flex-row gap-5 mb-8">
-              <button
+
+              {/* BOOK FREE TRIAL */}
+              <motion.button
                 onClick={openBookingModal}
+                whileHover={{
+                  scale: 1.05,
+                  y: -4,
+                  boxShadow: "0 0 45px rgba(234,179,8,0.65)",
+                }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 className="
                   bg-brand-gold text-brand-dark font-bold
-                  py-4 px-10 rounded-full text-lg
-                  shadow-[0_0_30px_rgba(234,179,8,0.35)]
-                  hover:scale-105 transition-transform
+                  py-4 px-10 rounded-full
+                  shadow-[0_0_25px_rgba(234,179,8,0.35)]
+                  focus:outline-none
                 "
               >
                 Book a Free Trial
-              </button>
+              </motion.button>
 
-              <button
+              {/* ENROLL NOW */}
+              <motion.button
                 onClick={openEnrollModal}
+                whileHover={{
+                  scale: 1.05,
+                  y: -4,
+                  backgroundColor: "#EAB308",
+                  color: "#111827",
+                  boxShadow: "0 0 35px rgba(234,179,8,0.55)",
+                }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 className="
                   border-2 border-brand-gold text-brand-gold font-bold
-                  py-4 px-10 rounded-full text-lg
-                  hover:bg-brand-gold hover:text-brand-dark
-                  transition-colors
+                  py-4 px-10 rounded-full
+                  bg-transparent
+                  focus:outline-none
                 "
               >
                 Enroll Now
-              </button>
+              </motion.button>
+
             </div>
 
             {/* TRUST LINE */}
-            <p className="text-sm text-gray-300 flex items-center gap-2">
+            <p className="text-sm text-gray-300">
               🎵 10+ Years Teaching Online & Offline Classes and Live Performer
             </p>
           </motion.div>
