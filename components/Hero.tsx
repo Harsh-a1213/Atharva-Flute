@@ -20,7 +20,7 @@ const Hero: React.FC<HeroProps> = ({
   return (
     <section
       id="hero"
-      className="relative w-full h-screen overflow-hidden bg-black"
+      className="relative w-full min-h-[100svh] md:h-screen overflow-hidden bg-black"
     >
       {/* ================= DESKTOP COLLAGE ================= */}
       <div className="absolute inset-0 hidden md:grid grid-cols-4 grid-rows-2 gap-0 h-full">
@@ -47,7 +47,7 @@ const Hero: React.FC<HeroProps> = ({
       <div className="absolute inset-0 z-20 pt-[80px]">
         <div className="h-full max-w-[1100px] mx-auto px-6 md:px-12">
           <motion.div
-            className="max-w-[620px] mt-[26vh]  mt-[22vh] sm:mt-[24vh] md:mt-[18vh]]"
+            className="max-w-[620px] mt-[20vh]  sm:mt-[22vh]  md:mt-[18vh]]"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: "easeOut" }}
@@ -66,7 +66,7 @@ const Hero: React.FC<HeroProps> = ({
               online and offline sessions.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-5 mb-8">
+            <div className="flex flex-col items-center sm:items-start gap-6">
               <motion.button
                 onClick={openBookingModal}
                 whileHover={{
@@ -105,7 +105,7 @@ const Hero: React.FC<HeroProps> = ({
               </motion.button>
             </div>
 
-            <p className="text-sm text-gray-300 mt-2 sm:mt-3 md:mt-2 text-center sm:text-left">
+            <p className="text-sm text-gray-200 bg-black/40 px-4 py-2 rounded-full backdrop-blur-sm">
               🎵 5+ Years Teaching Online & Offline Classes and Live Performer
             </p>
           </motion.div>
