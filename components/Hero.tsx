@@ -47,7 +47,7 @@ const Hero: React.FC<HeroProps> = ({
       <div className="absolute inset-0 z-20 pt-[80px]">
         <div className="h-full max-w-[1100px] mx-auto px-6 md:px-12">
           <motion.div
-            className="max-w-[620px] mt-[26vh] md:mt-[18vh]"
+            className="max-w-[620px] mt-[26vh]  mt-[22vh] sm:mt-[24vh] md:mt-[18vh]]"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: "easeOut" }}
@@ -105,7 +105,7 @@ const Hero: React.FC<HeroProps> = ({
               </motion.button>
             </div>
 
-            <p className="text-sm text-gray-300 -mt-1 md:mt-2">
+            <p className="text-sm text-gray-300 mt-2 sm:mt-3 md:mt-2 text-center sm:text-left">
               🎵 5+ Years Teaching Online & Offline Classes and Live Performer
             </p>
           </motion.div>

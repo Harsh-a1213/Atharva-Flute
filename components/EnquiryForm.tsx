@@ -87,7 +87,7 @@ const EnquiryForm: React.FC = () => {
 
             <InfoRow label="Phone" href="tel:+91XXXXXXXXXX">
               <PhoneIcon />
-              +91 XXXXX XXXXX
+              +91 93072 19102
             </InfoRow>
 
             <InfoRow label="Email" href="mailto:atharvafluteofficial@gmail.com">
