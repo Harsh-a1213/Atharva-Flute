@@ -8,9 +8,9 @@ const HarmoniumKeyboard = () => {
         </h1>
 
         <p className="text-gray-300 mb-8 leading-relaxed">
-          This class introduces students to harmonium or keyboard with a strong
-          focus on melody, pitch accuracy, and accompaniment techniques used in
-          Indian music.
+        The harmonium course at Atharva Flute Academy introduces students to the fundamentals of harmonium playing with a strong emphasis on melody, pitch accuracy, and accompaniment techniques essential to Indian music. 
+        The course is designed to build a solid musical base while developing sensitivity to sur, shruti, and expressive playing.
+        It is especially beneficial for beginners and vocalists seeking instrumental support for their practice.
         </p>
 
         <h2 className="text-2xl font-semibold text-brand-gold mb-4">
@@ -18,16 +18,18 @@ const HarmoniumKeyboard = () => {
         </h2>
 
         <ul className="list-disc list-inside text-gray-300 space-y-2 mb-8">
-          <li>Basic fingering and hand posture</li>
-          <li>Scale and chord practice</li>
-          <li>Understanding sur and shruti</li>
-          <li>Accompaniment for vocal music</li>
-          <li>Intro to raag-based playing</li>
+          <li>Basic fingering techniques and correct hand posture.</li>
+          <li>Systematic scale practice to improve finger coordination and speed.</li>
+          <li>Understanding sur and shruti for accurate pitch control.</li>
+          <li>Introduction to chords and basic harmony.</li>
+          <li>Accompaniment techniques for vocal music.</li>
+          <li>Introductory raag-based playing and simple compositions.</li>
         </ul>
 
         <p className="text-gray-300 mb-10">
-          Ideal for beginners and singers who want to support their practice
-          with an instrument.
+        The learning path is structured and beginner-friendly. 
+        Students start with basic note recognition and hand coordination, gradually progressing to scales, accompaniment patterns, and raag-based playing. 
+        Emphasis is placed on developing confidence, musical awareness, and the ability to support vocal or solo practice effectively.
         </p>
 
         <div className="text-center">

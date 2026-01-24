@@ -8,9 +8,11 @@ const Flute = () => {
         </h1>
 
         <p className="text-gray-300 mb-8 leading-relaxed">
-          The flute is the specialty of Atharva Flute Academy. This course is
-          deeply rooted in Hindustani classical music and focuses on building
-          strong foundations, tonal clarity, and expressive musicality.
+        The flute is the signature specialty of Atharva Flute Academy. 
+        This course is thoughtfully designed around the rich traditions of Hindustani classical and light music, with a strong focus on building solid fundamentals, achieving clear and balanced tone, and developing expressive musicality.
+        Students are trained through a structured approach that harmoniously blends discipline, devotion, and creative expression.
+
+
         </p>
 
         <h2 className="text-2xl font-semibold text-brand-gold mb-4">
@@ -18,11 +20,12 @@ const Flute = () => {
         </h2>
 
         <ul className="list-disc list-inside text-gray-300 space-y-2 mb-8">
-          <li>Breath control and tone development</li>
-          <li>Finger positioning and scale practice</li>
-          <li>Alankars and taans</li>
-          <li>Raag-based improvisation</li>
-          <li>Meend, murki, and gamak techniques</li>
+          <li>Breath control techniques for steady airflow and tonal clarity.</li>
+          <li>Proper finger positioning with systematic scale practice.</li>
+          <li>Alankars and basic paltas for technical strength.</li>
+          <li>Raag-based learning along with classical and light music compositions.</li>
+          <li>Essential ornamentation techniques including meend, murki, and gamak.</li>
+          <li>Performance-oriented training to build confidence, musical expression, and stage readiness, enabling students to perform comfortably in concerts, programs, and public settings.</li>
         </ul>
 
         <h2 className="text-2xl font-semibold text-brand-gold mb-4">
@@ -30,20 +33,12 @@ const Flute = () => {
         </h2>
 
         <p className="text-gray-300 mb-10">
-          Students progress from basic note production to advanced raag
-          improvisation, depending on their level and consistency.
+          The learning path is carefully structured to suit beginners as well as advancing students. 
+          Learners start with basic note production and foundational exercises, and gradually progress towards in-depth raag understanding, musical expression, and improvisation. 
+          Advancement is guided by the student’s level, consistency of practice, and overall musical development.
+
         </p>
-
-        <div className="text-center">
-          <a
-            href="#contact"
-            className="inline-block bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold py-3 px-10 rounded-full shadow-lg"
-          >
-            Enroll for Flute Class
-          </a>
-        </div>
-
-      </div>
+     </div>
     </section>
   );
 };
