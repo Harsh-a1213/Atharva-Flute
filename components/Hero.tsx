@@ -105,8 +105,8 @@ const Hero: React.FC<HeroProps> = ({
               </motion.button>
             </div>
 
-            <p className="text-sm text-gray-300">
-              🎵 10+ Years Teaching Online & Offline Classes and Live Performer
+            <p className="text-sm text-gray-300 -mt-1 md:mt-2">
+              🎵 5+ Years Teaching Online & Offline Classes and Live Performer
             </p>
           </motion.div>
         </div>

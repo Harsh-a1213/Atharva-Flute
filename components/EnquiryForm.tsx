@@ -130,15 +130,16 @@ const EnquiryForm: React.FC = () => {
               </div>
             </div>
 
-            {/* MAP */}
-            <div className="rounded-2xl overflow-hidden shadow-lg">
+            {/* MAP — FIXED */}
+            <div className="rounded-2xl overflow-hidden shadow-xl border border-white/10">
               <iframe
                 title="Atharva Flute Academy"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3750.0790682796414!2d73.75766837500132!3d19.96317678143273!"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3564.528281047055!2d73.75766837500132!3d19.96317678143273!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bddeb29bb5babf9%3A0xcd3655784f4c3dfb!2sAtharva%20flute%20Academy!5e1!3m2!1sen!2sin!4v1769265970753!5m2!1sen!2sin"
                 className="w-full h-56 md:h-64 border-0"
                 loading="lazy"
               />
             </div>
+
           </div>
 
           {/* RIGHT FORM */}
@@ -168,7 +169,7 @@ const EnquiryForm: React.FC = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold py-3 px-10 rounded-full shadow-lg"
+                  className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold py-3 px-10 rounded-full shadow-lg hover:scale-105 transition"
                 >
                   {loading ? "Sending..." : "Send Message"}
                 </button>
@@ -187,8 +188,17 @@ export default EnquiryForm;
 /* ---------- REUSABLE ---------- */
 
 const IconCircle = ({ children }: { children: React.ReactNode }) => (
-  <div className="w-14 h-14 rounded-full flex items-center justify-center bg-gradient-to-br from-yellow-400 to-yellow-500 text-gray-900">
-    {children}
+ <div
+    className="
+      w-14 h-14 rounded-full flex items-center justify-center
+      bg-gradient-to-br from-yellow-400 to-yellow-500
+      text-white
+      shadow-[0_0_18px_rgba(234,179,8,0.45)]
+      transition-transform duration-300
+      hover:scale-110
+    "
+  >
+      {children}
   </div>
 );
 
@@ -197,7 +207,7 @@ const InfoRow = ({ label, href, children }: any) => (
     <IconCircle>{children[0]}</IconCircle>
     <div>
       <p className="text-lg font-semibold">{label}</p>
-      <a href={href} className="text-gray-300 hover:text-brand-gold">
+      <a href={href} className="text-gray-300 hover:text-brand-gold transition">
         {children[1]}
       </a>
     </div>
@@ -219,8 +229,8 @@ const SocialIcon = ({
 }) => {
   const style =
     variant === "instagram"
-      ? "bg-gradient-to-tr from-pink-500 via-purple-500 to-yellow-400 shadow-[0_0_25px_rgba(236,72,153,0.45)]"
-      : "bg-red-600 shadow-[0_0_25px_rgba(239,68,68,0.45)]";
+      ? "bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF] shadow-[0_0_30px_rgba(221,42,123,0.6)]"
+      : "bg-red-600 shadow-[0_0_25px_rgba(239,68,68,0.55)]";
 
   return (
     <a
@@ -238,34 +248,73 @@ const SocialIcon = ({
 /* ---------- ICONS ---------- */
 
 const PhoneIcon = () => (
-  <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-    <path d="M3 5a2 2 0 012-2h2a2 2 0 012 2v1l-2 2a16 16 0 007 7l2-2h1a2 2 0 012 2v2a2 2 0 01-2 2h-1C8 20 4 16 4 10z"/>
+<svg
+    className="w-7 h-7"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.4"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M3 5a2 2 0 012-2h2a2 2 0 012 2v1l-2 2a16 16 0 007 7l2-2h1a2 2 0 012 2v2a2 2 0 01-2 2h-1C8 20 4 16 4 10z"
+    />
   </svg>
 );
-
 const MailIcon = () => (
-  <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-    <path d="M3 8l9 6 9-6v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+  <svg
+    className="w-7 h-7"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.4"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M3 8l9 6 9-6v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+    />
   </svg>
 );
 
 const LocationIcon = () => (
-  <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-    <path d="M12 11a3 3 0 100-6 3 3 0 000 6z"/>
-    <path d="M12 21s8-4.5 8-11a8 8 0 10-16 0c0 6.5 8 11 8 11z"/>
+  <svg
+    className="w-7 h-7"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.4"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M12 11a3 3 0 100-6 3 3 0 000 6z"
+    />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M12 21s8-4.5 8-11a8 8 0 10-16 0c0 6.5 8 11 8 11z"
+    />
   </svg>
 );
 
+/* ---------- OFFICIAL INSTAGRAM LOGO ---------- */
+
 const InstagramIcon = () => (
-  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-    <path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5z"/>
-    <circle cx="12" cy="12" r="3.2"/>
-    <circle cx="17.5" cy="6.5" r="1.2"/>
+  <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2z"
+      stroke="white"
+      strokeWidth="1.8"
+    />
+    <circle cx="12" cy="12" r="3.5" stroke="white" strokeWidth="1.8" />
+    <circle cx="16.5" cy="7.5" r="1.2" fill="white" />
   </svg>
 );
 
 const YouTubeIcon = () => (
-  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+  <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
     <path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2 31 31 0 000 12a31 31 0 00.5 5.8 3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1A31 31 0 0024 12zM9.5 15.5v-7l6 3.5z"/>
   </svg>
 );

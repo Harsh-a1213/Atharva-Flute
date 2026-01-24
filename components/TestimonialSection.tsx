@@ -22,6 +22,13 @@ const testimonials: Testimonial[] = [
     location: "Maharashtra, India",
     level: "Beginner",
   },
+    {
+    text:
+      "Starting flute as a beginner felt intimidating, but Atharva sir made it joyful and simple. Even from Canada, the learning experience feels personal and inspiring.",
+    name: "Sunny Singhania",
+    location: "Toronto, Canada",
+    level: "Beginner",
+  },
   {
     text:
       "As someone who loves performing, learning flute added a new rhythm to my life. Atharva sir makes complex notes feel easy and fun. Music has become my new love.",
@@ -34,8 +41,16 @@ const testimonials: Testimonial[] = [
       "These classes go beyond technique — they’re a journey into the soul of Hindustani classical music. Every session deepens my skills and appreciation for our art.",
     name: "Adesh Lodha",
     location: "India",
-    level: "Intermediate",
+    level: "Advance",
   },
+  {
+    text:
+      "Advanced training with Atharva sir refined my technique and musical understanding deeply. His attention to detail and discipline truly elevates your performance.",
+    name: "Arav D",
+    location: "Nashik, India",
+    level: "Advanced",
+  },
+
 ];
 
 const AUTO_DELAY = 5000;
@@ -70,17 +85,17 @@ const TestimonialsSlider: React.FC = () => {
 
   return (
     <section className="py-24 bg-black">
-      <div className="container mx-auto px-6 max-w-3xl text-center">
+      <div className="mx-auto px-6 max-w-3xl text-center">
 
         {/* TITLE */}
         <h2 className="text-4xl font-serif font-bold text-brand-gold mb-14">
           What Our Students Say
-          <span className="block w-20 h-1 bg-yellow-500 mx-auto mt-4 rounded-full"></span>
+          <span className="block w-20 h-1 bg-yellow-500 mx-auto mt-4 rounded-full" />
         </h2>
 
         {/* SLIDER */}
         <div
-          className="relative min-h-[300px]"
+          className="relative min-h-[320px]"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
           onTouchStart={onTouchStart}
@@ -89,27 +104,38 @@ const TestimonialsSlider: React.FC = () => {
           {testimonials.map((t, i) => (
             <div
               key={i}
-              className={`absolute inset-0 transition-all duration-700 ease-in-out
+              className={`
+                absolute inset-0 transition-all duration-700 ease-in-out
                 ${
                   i === index
-                    ? "opacity-100 translate-x-0 translate-y-0"
-                    : "opacity-0 translate-x-16 md:translate-x-24 translate-y-6 pointer-events-none"
-                }`}
+                    ? "opacity-100 scale-100"
+                    : "opacity-0 scale-95 pointer-events-none"
+                }
+                md:${
+                  i === index
+                    ? "translate-x-0"
+                    : "translate-x-24"
+                }
+              `}
             >
-              <div className="bg-brand-gray rounded-3xl p-10 shadow-2xl">
-                <div className="text-5xl text-brand-gold mb-4">“</div>
+            <div className="bg-brand-gray rounded-3xl p-8 md:p-10 shadow-2xl">
 
-                <p className="text-gray-200 text-lg leading-relaxed mb-8">
-                  {t.text}
-                </p>
+                <p className="text-gray-200 italic text-base md:text-lg leading-relaxed mb-8">
+                <span className="text-brand-gold text-2xl mr-1">“</span>
+                {t.text}
+                <span className="text-brand-gold text-2xl ml-1">”</span>
+              </p>
 
-                <div className="text-brand-gold font-semibold text-lg">
-                  {t.name}
-                </div>
-                <div className="text-gray-400 text-sm">
-                  {t.location} · {t.level}
-                </div>
+              <div className="text-brand-gold font-semibold text-lg">
+                {t.name}
               </div>
+
+              <div className="text-gray-400 text-sm">
+                {t.location} · {t.level}
+              </div>
+
+            </div>
+
             </div>
           ))}
         </div>
