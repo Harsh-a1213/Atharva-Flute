@@ -31,7 +31,7 @@ const Hero: React.FC<HeroProps> = ({
         <img src={img5} className="object-cover w-full h-full" />
       </div>
 
-      {/* ================= MOBILE SINGLE IMAGE ================= */}
+      {/* ================= MOBILE IMAGE ================= */}
       <div className="absolute inset-0 md:hidden">
         <img
           src={mobileImg}
@@ -47,67 +47,81 @@ const Hero: React.FC<HeroProps> = ({
       <div className="absolute inset-0 z-20 pt-[80px]">
         <div className="h-full max-w-[1100px] mx-auto px-6 md:px-12">
           <motion.div
-            className="max-w-[620px] mt-[26vh]  mt-[22vh] sm:mt-[24vh] md:mt-[18vh]]"
+            className="
+              max-w-[620px]
+              mt-[22vh]
+              sm:mt-[24vh]
+              md:mt-[18vh]
+            "
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: "easeOut" }}
           >
-            <span className="block text-xs tracking-widest uppercase text-white/80 mb-6">
+            {/* BADGE */}
+            <span className="block text-xs tracking-widest uppercase text-white/80 mb-5">
               LEARN FLUTE
             </span>
 
+            {/* HEADING */}
             <h1 className="font-serif font-bold text-4xl sm:text-5xl lg:text-6xl leading-tight mb-6 text-white">
               Experience the Soulful Essence of the{" "}
               <span className="text-brand-gold">Bansuri</span>
             </h1>
 
-            <p className="text-base sm:text-lg text-gray-200 mb-10 leading-relaxed">
+            {/* DESCRIPTION */}
+            <p className="text-base sm:text-lg text-gray-200 mb-8 leading-relaxed">
               Learn flute with depth, devotion, and classical tradition through
               online and offline sessions.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-5 mb-8">
-              <motion.button
-                onClick={openBookingModal}
-                whileHover={{
-                  scale: 1.05,
-                  y: -4,
-                  boxShadow: "0 0 45px rgba(234,179,8,0.65)",
-                }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="
-                  bg-brand-gold text-brand-dark font-bold
-                  py-4 px-10 rounded-full
-                  shadow-[0_0_25px_rgba(234,179,8,0.35)]
-                "
-              >
-                Book a Free Trial
-              </motion.button>
+            {/* BUTTONS + TRUST (CONTROLLED GAP) */}
+            <div className="flex flex-col items-center sm:items-start gap-3">
+              
+              {/* Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <motion.button
+                  onClick={openBookingModal}
+                  whileHover={{
+                    scale: 1.05,
+                    y: -4,
+                    boxShadow: "0 0 45px rgba(234,179,8,0.65)",
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="
+                    bg-brand-gold text-brand-dark font-bold
+                    py-4 px-10 rounded-full
+                    shadow-[0_0_25px_rgba(234,179,8,0.35)]
+                  "
+                >
+                  Book a Free Trial
+                </motion.button>
 
-              <motion.button
-                onClick={openEnrollModal}
-                whileHover={{
-                  scale: 1.05,
-                  y: -4,
-                  backgroundColor: "#EAB308",
-                  color: "#111827",
-                  boxShadow: "0 0 35px rgba(234,179,8,0.55)",
-                }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="
-                  border-2 border-brand-gold text-brand-gold font-bold
-                  py-4 px-10 rounded-full bg-transparent
-                "
-              >
-                Enroll Now
-              </motion.button>
+                <motion.button
+                  onClick={openEnrollModal}
+                  whileHover={{
+                    scale: 1.05,
+                    y: -4,
+                    backgroundColor: "#EAB308",
+                    color: "#111827",
+                    boxShadow: "0 0 35px rgba(234,179,8,0.55)",
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="
+                    border-2 border-brand-gold text-brand-gold font-bold
+                    py-4 px-10 rounded-full bg-transparent
+                  "
+                >
+                  Enroll Now
+                </motion.button>
+              </div>
+
+              {/* TRUST LINE */}
+              <p className="text-sm text-gray-300 text-center sm:text-left opacity-90">
+                🎵 5+ Years Teaching Online & Offline Classes and Live Performer
+              </p>
             </div>
-
-            <p className="text-sm text-gray-300 mt-2 sm:mt-3 md:mt-2 text-center sm:text-left">
-              🎵 5+ Years Teaching Online & Offline Classes and Live Performer
-            </p>
           </motion.div>
         </div>
       </div>
