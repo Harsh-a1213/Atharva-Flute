@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
+// Layout & Sections
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import About from "./components/About";
-import ClassCard from "./components/ClassCard";
+import Classes from "./components/ClassCard";
 import Instructors from "./components/Instructors";
 import Performances from "./components/Performances";
 import VideoSlideshow from "./components/VideoSlideshow";
@@ -12,11 +13,12 @@ import FAQSection from "./components/FAQSection";
 import TestimonialSection from "./components/TestimonialSection";
 import EnquiryForm from "./components/EnquiryForm";
 
+// Modals
 import BookDemoModal from "./components/BookDemoModal";
 import EnrollModal from "./components/EnrollModal";
 import BookPerformanceModal from "./components/BookPerformanceModal";
 
-// Class pages
+// Class Pages
 import Flute from "./components/Flute";
 import HarmoniumKeyboard from "./components/HarmoniumKeyboard";
 import Guitar from "./components/Guitar";
@@ -27,16 +29,18 @@ import instructorImage from "./components/assets/hero.jpg";
 import fluteImage from "./components/assets/flute.jpeg";
 import harmoniumImage from "./components/assets/harmonium.jpeg";
 import guitarImage from "./components/assets/guitar.jpeg";
-import tabalaImage from "./components/assets/tabala.jpeg";
+import tablaImage from "./components/assets/tabala.jpeg";
 
 // Types
 import { Instructor, InstrumentClass } from "./types";
 
 const App: React.FC = () => {
+  // ================= MODAL STATE =================
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false);
   const [isPerformanceModalOpen, setIsPerformanceModalOpen] = useState(false);
 
+  // ================= DATA =================
   const instructorData: Instructor[] = [
     {
       id: 1,
@@ -48,10 +52,34 @@ const App: React.FC = () => {
   ];
 
   const classesData: InstrumentClass[] = [
-    { id: 1, name: "Flute", imageUrl: fluteImage, link: "/classes/flute" },
-    { id: 2, name: "Harmonium / Keyboard", imageUrl: harmoniumImage, link: "/classes/harmonium" },
-    { id: 3, name: "Guitar", imageUrl: guitarImage, link: "/classes/guitar" },
-    { id: 4, name: "Tabla / Drum", imageUrl: tabalaImage, link: "/classes/tabla" },
+    {
+      id: 1,
+      name: "Flute",
+      category: "Specialty Course",
+      imageUrl: fluteImage,
+      link: "/classes/flute",
+    },
+    {
+      id: 2,
+      name: "Harmonium / Keyboard",
+      category: "Foundation Course",
+      imageUrl: harmoniumImage,
+      link: "/classes/harmonium",
+    },
+    {
+      id: 3,
+      name: "Guitar",
+      category: "Contemporary Course",
+      imageUrl: guitarImage,
+      link: "/classes/guitar",
+    },
+    {
+      id: 4,
+      name: "Tabla",
+      category: "Rhythm Foundation",
+      imageUrl: tablaImage,
+      link: "/classes/tabla",
+    },
   ];
 
   return (
@@ -59,6 +87,7 @@ const App: React.FC = () => {
       <Header />
 
       <Routes>
+        {/* ================= HOME ================= */}
         <Route
           path="/"
           element={
@@ -69,7 +98,7 @@ const App: React.FC = () => {
               />
 
               <About />
-              <ClassCard classes={classesData} />
+              <Classes classes={classesData} />
               <Instructors instructors={instructorData} />
 
               <Performances
@@ -83,7 +112,7 @@ const App: React.FC = () => {
               <TestimonialSection />
               <EnquiryForm />
 
-              {/* Modals */}
+              {/* ===== Modals ===== */}
               <BookDemoModal
                 isOpen={isBookingModalOpen}
                 onClose={() => setIsBookingModalOpen(false)}
@@ -102,8 +131,12 @@ const App: React.FC = () => {
           }
         />
 
+        {/* ================= CLASS ROUTES ================= */}
         <Route path="/classes/flute" element={<Flute />} />
-        <Route path="/classes/harmonium" element={<HarmoniumKeyboard />} />
+        <Route
+          path="/classes/harmonium"
+          element={<HarmoniumKeyboard />}
+        />
         <Route path="/classes/guitar" element={<Guitar />} />
         <Route path="/classes/tabla" element={<Tabla />} />
       </Routes>

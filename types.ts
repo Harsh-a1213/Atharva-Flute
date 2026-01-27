@@ -5,6 +5,7 @@ export interface InstrumentClass {
   imageUrl: string;
   description?: string;
   link: string; 
+  category: string;
 }
 
 export interface Instructor {

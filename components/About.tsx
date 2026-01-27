@@ -1,105 +1,124 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 
-const FeatureItem: React.FC<{ icon: string; text: string; delay?: number }> = ({
-  icon,
-  text,
-  delay = 0,
-}) => (
-  <motion.li
-    className="flex items-start space-x-4"
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6, delay }}
-    viewport={{ once: true }}
-  >
-    <div className="flex-shrink-0">
-      <svg
-        className="w-6 h-6 text-brand-gold"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d={icon}
-        ></path>
-      </svg>
-    </div>
-    <p className="text-brand-light">{text}</p>
-  </motion.li>
-);
+interface Feature {
+  title: string;
+  description: string;
+  icon: string;
+}
+
+const features: Feature[] = [
+  {
+    title: "Flexible Learning Modes",
+    description: "One-on-one or group sessions available, both online and offline.",
+    icon: "👥",
+  },
+  {
+    title: "Personalized Training",
+    description: "Customized practice plans based on your skill level and goals.",
+    icon: "🎯",
+  },
+  {
+    title: "Structured Curriculum",
+    description: "Systematically designed course materials for steady progress.",
+    icon: "📘",
+  },
+  {
+    title: "Certified Examinations",
+    description: "Music exams conducted under Government Music Institutes like ABGMV.",
+    icon: "🏅",
+  },
+  {
+    title: "Mentorship & Guidance",
+    description: "Continuous mentorship focused on technique, expression, and confidence.",
+    icon: "🧑‍🏫",
+  },
+  {
+    title: "Progress Tracking",
+    description: "Regular assignments, assessments, and constructive feedback.",
+    icon: "📈",
+  },
+];
 
 const About: React.FC = () => {
-  const features = [
-    {
-      icon:
-        'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z',
-      text: 'One-on-One or Group sessions available.',
-    },
-    {
-      icon:
-        'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
-      text: 'Personalized practice sessions and flexible scheduling.',
-    },
-    {
-      icon:
-        'M12 14l9-5-9-5-9 5 9 5zm0 7v-6.18l7-3.89V10l-7 4-7-4v1.93l7 3.89V21z',
-      text: 'Online as well as offline Classes are available',
-    },
-    {
-      icon:
-        'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
-      text:
-        'We conduct music exams under Government Music Institutes like ABGMV.',
-    },
-    {
-      icon: 'M12 6.253v11.494m-9-5.747h18',
-      text: 'Mentorship tailored to your unique skill level and goals.',
-    },
-    {
-      icon: 'M4 6h16M4 10h16M4 14h16M4 18h16',
-      text:
-        'Systematically designed course materials will be provided.',
-    },
-    {
-      icon: 'M15 10l-3-3m0 0l-3 3m3-3v12',
-      text:
-        'Progress monitored through regular assignments and constructive feedback.',
-    },
-  ];
-
   return (
-    <section id="about" className="py-20 bg-brand-gray">
-      <div className="container mx-auto px-6">
+    <section
+      id="about"
+      className="relative py-28 bg-brand-gray overflow-hidden"
+    >
+      {/* ambient glow background */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(212,175,55,0.10),transparent_65%)]" />
+
+      <div className="relative container mx-auto px-6">
+
+        {/* Heading */}
         <motion.h2
-          className="text-4xl font-serif font-bold text-center text-brand-gold mb-12"
+          className="text-4xl md:text-5xl font-serif font-bold text-center text-brand-gold mb-6"
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.7 }}
           viewport={{ once: true }}
         >
           How Our Classes Work
         </motion.h2>
 
-        <motion.ul
-          className="space-y-6 text-lg max-w-4xl mx-auto"
-          initial="hidden"
-          whileInView="visible"
+        <motion.p
+          className="text-center text-gray-400 max-w-2xl mx-auto mb-20"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
           viewport={{ once: true }}
         >
+          A carefully crafted learning experience designed to build discipline,
+          musical understanding, and confident performers.
+        </motion.p>
+
+        {/* Feature Cards */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12 max-w-6xl mx-auto">
           {features.map((feature, index) => (
-            <FeatureItem
+            <motion.div
               key={index}
-              icon={feature.icon}
-              text={feature.text}
-              delay={index * 0.1}
-            />
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              whileHover={{
+                y: -8,
+                boxShadow: "0 0 40px rgba(212,175,55,0.25)",
+              }}
+              className="
+                group relative bg-brand-dark
+                border border-white/10
+                rounded-2xl p-10
+                text-center shadow-xl
+                transition-all duration-300
+              "
+            >
+              {/* Glow halo */}
+              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[radial-gradient(circle_at_top,rgba(212,175,55,0.15),transparent_70%)]" />
+
+              {/* Icon */}
+              <motion.div
+                whileHover={{ scale: 1.15, rotate: 3 }}
+                transition={{ type: "spring", stiffness: 300 }}
+                className="relative z-10 text-5xl mb-5"
+              >
+                {feature.icon}
+              </motion.div>
+
+              {/* Title */}
+              <h3 className="relative z-10 text-xl font-semibold text-brand-gold mb-4">
+                {feature.title}
+              </h3>
+
+              {/* Description */}
+              <p className="relative z-10 text-sm text-gray-300 leading-relaxed">
+                {feature.description}
+              </p>
+            </motion.div>
           ))}
-        </motion.ul>
+        </div>
+
       </div>
     </section>
   );
