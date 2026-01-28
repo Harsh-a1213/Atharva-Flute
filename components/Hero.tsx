@@ -119,7 +119,7 @@ const Hero: React.FC<HeroProps> = ({
 
               {/* TRUST LINE */}
               <p className="text-sm text-gray-300 text-center sm:text-left opacity-90">
-                🎵 5+ Years Teaching Online & Offline Classes and Live Performer
+                🎵 5+ Years Teaching <b>|</b> Online & Offline Classes <b>|</b> Performing Artist
               </p>
             </div>
           </motion.div>

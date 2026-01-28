@@ -119,47 +119,93 @@ const Flute = () => {
         </div>
       </div>
 
-      {/* ================= LEARNING PATH ================= */}
-      <div className="py-24">
-        <div className="container mx-auto px-6 max-w-6xl">
+{/* ================= LEARNING PATH ================= */}
+<div className="py-28 bg-brand-dark">
+  <div className="container mx-auto px-6 max-w-7xl">
 
-          <h2 className="text-3xl font-serif font-bold text-brand-gold mb-14 text-center">
-            Learning Path
-          </h2>
+    <h2 className="text-3xl md:text-4xl font-serif font-bold text-brand-gold mb-16 text-center">
+      Learning Path
+      <span className="block w-16 h-[2px] bg-brand-gold/60 mx-auto mt-4 rounded-full" />
+    </h2>
 
-          <div className="grid md:grid-cols-3 gap-10">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
 
-            {[
-              {
-                title: "Beginner",
-                text: "Sound production, posture, breath control, and foundational exercises to build a strong musical base.",
-              },
-              {
-                title: "Intermediate",
-                text: "Raag development, ornamentation, compositions, and expressive phrasing to deepen musical understanding.",
-              },
-              {
-                title: "Advanced",
-                text: "Improvisation, concert preparation, advanced raags, and professional performance techniques.",
-              },
-            ].map((stage, index) => (
-              <div
-                key={index}
-                className="bg-black/40 p-8 rounded-2xl border border-white/10 hover:border-brand-gold/40 transition-colors duration-300"
-              >
-                <h3 className="text-xl font-semibold text-brand-gold mb-4">
-                  {stage.title}
-                </h3>
-                <p className="text-gray-300 text-sm leading-relaxed">
-                  {stage.text}
-                </p>
-              </div>
-            ))}
+      {/* CARD */}
+      {[
+        {
+          level: "Beginner",
+          subtitle: "Building strong foundations",
+          points: [
+            "Introduction to flute & posture",
+            "Breath control and blowing techniques",
+            "Fundamentals of swaras",
+            "Basic alankar & taan practice",
+            "Simple compositions",
+          ],
+        },
+        {
+          level: "Intermediate",
+          subtitle: "Depth, control & expression",
+          points: [
+            "Advanced alankar & taan patterns",
+            "Introduction to raags",
+            "Komal & teevra swaras",
+            "Meend and murki techniques",
+            "Light classical compositions",
+          ],
+        },
+        {
+          level: "Advanced",
+          subtitle: "Performance & mastery",
+          points: [
+            "Advanced raags & improvisation",
+            "Concert preparation techniques",
+            "Layakari & rhythm control",
+            "Stage presence & expression",
+            "Teaching methodology basics",
+          ],
+        },
+      ].map((stage, index) => (
+        <div
+          key={index}
+          className="
+            relative
+            bg-brand-gray
+            rounded-2xl
+            p-8
+            border border-white/10
+            shadow-lg
+            transition-all duration-300
+            hover:border-brand-gold/40
+          "
+        >
+          {/* Soft corner glow */}
+          <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_top,rgba(212,175,55,0.08),transparent_70%)] pointer-events-none" />
 
+          <div className="relative">
+            <h3 className="text-2xl font-serif font-bold text-brand-gold mb-1">
+              {stage.level}
+            </h3>
+
+            <p className="text-sm text-brand-light mb-6">
+              {stage.subtitle}
+            </p>
+
+            <ul className="space-y-3 text-sm text-gray-300">
+              {stage.points.map((point, i) => (
+                <li key={i} className="flex gap-3">
+                  <span className="text-brand-gold mt-[2px]">•</span>
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-
         </div>
-      </div>
+      ))}
+    </div>
+  </div>
+</div>
+
 
     </section>
   );

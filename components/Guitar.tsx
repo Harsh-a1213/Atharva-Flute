@@ -112,43 +112,78 @@ const Guitar = () => {
         </div>
       </div>
 
-      {/* LEARNING PATH */}
-      <div className="py-24">
-        <div className="container mx-auto px-6 max-w-6xl">
-          <h2 className="text-3xl font-serif font-bold text-brand-gold mb-14 text-center">
-            Learning Path
-          </h2>
+{/* ================= LEARNING PATH ================= */}
+<div className="py-28 bg-brand-dark">
+  <div className="container mx-auto px-6 max-w-7xl">
 
-          <div className="grid md:grid-cols-3 gap-10">
-            {[
-              {
-                title: "Beginner",
-                text: "Basic chords, rhythm exercises, posture, and coordination.",
-              },
-              {
-                title: "Intermediate",
-                text: "Scale fluency, strumming patterns, melodic phrasing.",
-              },
-              {
-                title: "Advanced",
-                text: "Expressive playing, performance readiness, musical confidence.",
-              },
-            ].map((stage, i) => (
-              <div
-                key={i}
-                className="bg-black/40 p-8 rounded-2xl border border-white/10 hover:border-brand-gold/40 transition-colors duration-300"
-              >
-                <h3 className="text-xl font-semibold text-brand-gold mb-4">
-                  {stage.title}
-                </h3>
-                <p className="text-gray-300 text-sm leading-relaxed">
-                  {stage.text}
-                </p>
-              </div>
+    <h2 className="text-3xl md:text-4xl font-serif font-bold text-brand-gold mb-16 text-center">
+      Learning Path
+      <span className="block w-16 h-[2px] bg-brand-gold/60 mx-auto mt-4 rounded-full" />
+    </h2>
+
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+      {[
+        {
+          level: "Beginner",
+          subtitle: "Foundation & comfort",
+          points: [
+            "Guitar posture & tuning",
+            "Basic chords and strumming",
+            "Finger exercises",
+            "Simple songs and progressions",
+            "Rhythm awareness",
+          ],
+        },
+        {
+          level: "Intermediate",
+          subtitle: "Technique & expression",
+          points: [
+            "Barre chords",
+            "Strumming patterns",
+            "Basic fingerstyle",
+            "Scales & melodic playing",
+            "Song structure understanding",
+          ],
+        },
+        {
+          level: "Advanced",
+          subtitle: "Performance & mastery",
+          points: [
+            "Lead guitar techniques",
+            "Improvisation",
+            "Advanced fingerstyle",
+            "Stage performance skills",
+            "Composition basics",
+          ],
+        },
+      ].map((stage, index) => (
+        <div
+          key={index}
+          className="relative bg-brand-gray rounded-2xl p-8 border border-white/10 shadow-lg hover:border-brand-gold/40 transition"
+        >
+          <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_top,rgba(212,175,55,0.08),transparent_70%)] pointer-events-none" />
+
+          <h3 className="text-2xl font-serif font-bold text-brand-gold mb-1">
+            {stage.level}
+          </h3>
+          <p className="text-sm text-brand-light mb-6">
+            {stage.subtitle}
+          </p>
+
+          <ul className="space-y-3 text-sm text-gray-300">
+            {stage.points.map((p, i) => (
+              <li key={i} className="flex gap-3">
+                <span className="text-brand-gold">•</span>
+                <span>{p}</span>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
-      </div>
+      ))}
+    </div>
+  </div>
+</div>
+
 
     </section>
   );
